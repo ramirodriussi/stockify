@@ -9,6 +9,14 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'product',
+        'price',
+        'stock',
+        'stock_notification_below',
+        'store_id',
+    ];
+
     public function store()
     {
         return $this->belongsTo('App\Models\Store');

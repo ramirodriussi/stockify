@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
@@ -17,16 +18,6 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -34,7 +25,21 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        \Validator::make($request->all(), [
+            'product' => 'required|string',
+            'price' => 'required|numeric',
+            'stock' => 'required|integer',
+            'stock_notification_below' => 'required|integer',
+            'store_id' => 'required',
+        ])->validate();
+
+        $product = new Product();
+
+        $product->create($request->all());
+
+        return response()->json(['message' => 'Agregado correctamente'], 200);
+
     }
 
     /**
@@ -45,18 +50,11 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $product = Product::find($id);
+
+        return response()->json(['data' => $product], 200);
+
     }
 
     /**
@@ -68,7 +66,20 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        \Validator::make($request->all(), [
+            'product' => 'string',
+            'price' => 'numeric',
+            'stock' => 'integer',
+            'stock_notification_below' => 'integer',
+        ])->validate();
+
+        $product = Product::find($id);
+
+        $product->update($request->all());
+
+        return response()->json(['message' => 'Actualizado correctamente'], 200);
+
     }
 
     /**
@@ -79,6 +90,12 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+        $product = Product::find($id);
+
+        $product->delete();
+
+        return response()->json(['message' => 'Eliminado correctamente'], 200);
+
     }
 }

@@ -94,7 +94,7 @@ class StoreController extends Controller
 
         $store->delete();
 
-        return response()->json(['message' => 'Eliminado correctamente']);
+        return response()->json(['message' => 'Eliminado correctamente'], 200);
 
     }
 }
