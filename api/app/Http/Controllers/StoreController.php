@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Store;
+use App\Transformers\StoreTransformer;
+use League\Fractal\Manager;
+use League\Fractal\Serializer\ArraySerializer;
+use League\Fractal\Resource\Collection;
+// use League\Fractal\Resource\Item;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
 class StoreController extends Controller
 {
@@ -15,9 +21,19 @@ class StoreController extends Controller
     public function index()
     {
         
-        $stores = Store::paginate(1);
+		$manager = new Manager();
 
-        return response()->json(['data' => $stores], 200);
+		$manager->setSerializer(new ArraySerializer());
+
+        $stores = Store::paginate(2);
+
+		$app = $stores->getCollection();
+
+		$resource = new Collection($app, new StoreTransformer());	
+
+		$resource->setPaginator(new IlluminatePaginatorAdapter($stores));
+
+		return $manager->createData($resource)->toArray();
 
     }
 
