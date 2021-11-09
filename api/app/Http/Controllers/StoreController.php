@@ -18,14 +18,14 @@ class StoreController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         
 		$manager = new Manager();
 
 		$manager->setSerializer(new ArraySerializer());
 
-        $stores = Store::paginate(2);
+        $stores = Store::search($request->word)->paginate(1);
 
 		$app = $stores->getCollection();
 

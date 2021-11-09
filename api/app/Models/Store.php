@@ -20,4 +20,11 @@ class Store extends Model
         return $this->hasMany('App\Models\Product');
     }
 
+    public function scopeSearch($query, $word)
+    {
+
+        $query->where('store', 'like', "%$word%");
+
+    }
+
 }
