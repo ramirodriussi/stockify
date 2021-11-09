@@ -20,7 +20,7 @@ class StoreController extends Controller
      */
     public function index(Request $request)
     {
-        
+
 		$manager = new Manager();
 
 		$manager->setSerializer(new ArraySerializer());
@@ -84,14 +84,16 @@ class StoreController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
-        \Validator::make($request->all(), [
+
+        $arr = [$request->input => $request->value];
+
+        \Validator::make($arr, [
             'store' => 'required',
         ])->validate();
 
         $store = Store::find($id);
 
-        $store->update($request->all());
+        $store->update($arr);
 
         return response()->json(['message' => 'Actualizado correctamente'], 200);
 
