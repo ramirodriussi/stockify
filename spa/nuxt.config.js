@@ -47,7 +47,8 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    ['vuetify-dialog/nuxt', { property: '$dialog' }],
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
