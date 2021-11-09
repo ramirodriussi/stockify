@@ -92,7 +92,7 @@
     <!-- main  -->
 
     <v-main>
-      <v-container fill-height align-content-start fluid class="pa-5 indigo lighten-5">
+      <v-container fill-height d-block align-content-start fluid class="pa-5 indigo lighten-5">
         <Nuxt />
       </v-container>
     </v-main>

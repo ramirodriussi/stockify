@@ -57,9 +57,8 @@
         items: [
 
             { title: 'Inicio', icon: 'mdi-monitor-dashboard', route: {name:'panel'}},
-            { title: 'Reservas', icon: 'mdi-calendar-check', route: {name:'panel-reservations'}},
-            { title: 'Mensajes', icon: 'mdi-comment-text-multiple-outline', route: {name:'panel-questions'}},
-            { title: 'Ayuda', icon: 'mdi-help-circle-outline', route: {name:'panel-help'}},
+            { title: 'Locales', icon: 'mdi-storefront-outline', route: {name:'panel-stores'}},
+            { title: 'Productos', icon: 'mdi-shopping-outline', route: {name:'panel-products'}},
 
         ],
         // right: null
