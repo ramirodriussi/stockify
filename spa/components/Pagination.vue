@@ -71,15 +71,9 @@
 
         if (this.paginationSection == 'products') {   
 
-            if (this.searchBoxPaginationActive) {
-
-                url = '/api/bookshop/reservations?word='+this.$store.getters['search/getSearch']+'&status='+this.$store.getters['search/getStatusModel']+'&page='+this.$store.getters['pagination/getPagination'].page;
-
-            } else {
-
-                url = '/api/bookshop/reservations?page='+this.$store.getters['pagination/getPagination'].page;
-
-            }
+          (this.searchBoxPaginationActive) 
+              ? url = `/api/products?word=${this.$store.getters['search/getSearch']}&page=${this.$store.getters['pagination/getPagination'].page}`
+              : url = `/api/products?page=${this.$store.getters['pagination/getPagination'].page}`;
 
         }
 
@@ -87,16 +81,10 @@
 
         if (this.paginationSection == 'stores') {
 
-            if (this.searchBoxPaginationActive) {
-
-              url = '/api/stores?word='+this.$store.getters['search/getSearch']+'&page='+this.$store.getters['pagination/getPagination'].page;
-
-            } else {
-
-              url = '/api/stores?page='+this.$store.getters['pagination/getPagination'].page;
-              
-            }
-        
+            (this.searchBoxPaginationActive) 
+                ? url = `/api/stores?word=${this.$store.getters['search/getSearch']}&page=${this.$store.getters['pagination/getPagination'].page}`
+                : url = `/api/stores?page=${this.$store.getters['pagination/getPagination'].page}`;
+   
         }
 
         this.$store.dispatch('pagination/setItemsPagination', url);

@@ -55,7 +55,7 @@
                 <v-card class="elevation-4 pa-3">
             
                     <v-col cols="12" sm="4">
-                        <SearchBox />
+                        <SearchBox section="stores" />
                     </v-col>
 
                     <v-data-table
@@ -179,7 +179,7 @@
                         page = this.pagination.page;
                     }
 
-                    let url = '/api/stores?page='+page;
+                    let url = `/api/stores?page=${page}`;
 
                     this.$store.dispatch('pagination/setItemsPagination', url);
 

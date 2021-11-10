@@ -33,7 +33,15 @@ export const mutations = {
 
 export const actions = {
 
+    async getStores({commit}){
 
+        let url = `/api/stores`;
+
+        let resp = await this.$axios.get(url, {params: {all:true}});
+
+        commit('setStores', resp.data.data); 
+
+    }
 
 
 };

@@ -33,6 +33,12 @@
 
 		},
 
+		props: {
+
+			section: String,
+
+		},
+
 		mounted() {
 
 			this.$store.commit('search/setSearch', null);
@@ -68,7 +74,7 @@
 
 			getItems(){
 
-                let url = `/api/stores?word=${this.$store.getters['search/getSearch']}`;
+                let url = `/api/${this.section}?word=${this.$store.getters['search/getSearch']}`;
 
 				this.$store.commit('search/setSearchBoxPaginationActive', true);
 				this.$store.commit('pagination/changePage', 1);

@@ -44,6 +44,10 @@ export const actions = {
                     commit('stores/setStores', response.data.data, {root: true});
                 }	
 
+                if (state.paginationSection == 'products') {
+                    commit('products/setProducts', response.data.data, {root: true});
+                }	
+
                 commit('showSkeleton', false, {root: true});
                 commit('pagination', response.data.meta.pagination);
 
