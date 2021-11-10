@@ -36,6 +36,7 @@ class ProductTransformer extends TransformerAbstract
             
             'id' => $product->id,
             'product' => $product->product,
+            'code' => $product->code,
             'stock' => $product->stock,
             'stock_notification_below' => $product->stock_notification_below,
             'price' => $product->price,

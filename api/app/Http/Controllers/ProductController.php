@@ -52,6 +52,7 @@ class ProductController extends Controller
             'stock' => 'required|integer',
             'stock_notification_below' => 'required|integer',
             'store_id' => 'required',
+            'code' => 'required',
         ])->validate();
 
         $product = new Product();

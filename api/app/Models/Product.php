@@ -15,6 +15,7 @@ class Product extends Model
         'stock',
         'stock_notification_below',
         'store_id',
+        'code',
     ];
 
     public function store()
