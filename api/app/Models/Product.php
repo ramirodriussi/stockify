@@ -22,4 +22,24 @@ class Product extends Model
         return $this->belongsTo('App\Models\Store');
     }
 
+    public function scopeSearch($query, $word)
+    {
+        $query->where('product', 'like', "%$word%");
+    }
+
+    public function scopeStore($query, $id)
+    {
+
+        if($id){
+
+            $query->whereHas('store', function($q) use ($id){
+                $q->where('id', $id);
+            });
+
+        }
+
+        return $query;
+
+    }
+
 }

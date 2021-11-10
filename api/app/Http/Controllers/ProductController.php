@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Transformers\ProductTransformer;
+use League\Fractal\Manager;
+use League\Fractal\Serializer\ArraySerializer;
+use League\Fractal\Resource\Collection;
+use League\Fractal\Resource\Item;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
 class ProductController extends Controller
 {
@@ -12,9 +18,23 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+
+		$manager = new Manager();
+
+		$manager->setSerializer(new ArraySerializer());
+
+        $products = Product::search($request->word)->store($request->store)->orderBy('id', 'desc')->paginate(1);
+
+		$app = $products->getCollection();
+
+		$resource = new Collection($app, new ProductTransformer());	
+
+		$resource->setPaginator(new IlluminatePaginatorAdapter($products));
+
+		return $manager->createData($resource)->toArray();
+
     }
 
     /**
@@ -26,7 +46,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
 
-        \Validator::make($request->all(), [
+        \Validator::make($request->form, [
             'product' => 'required|string',
             'price' => 'required|numeric',
             'stock' => 'required|integer',
@@ -36,7 +56,7 @@ class ProductController extends Controller
 
         $product = new Product();
 
-        $product->create($request->all());
+        $product->create($request->form);
 
         return response()->json(['message' => 'Agregado correctamente'], 200);
 
@@ -51,9 +71,15 @@ class ProductController extends Controller
     public function show($id)
     {
 
+        $manager = new Manager();
+
+        $manager->setSerializer(new ArraySerializer());
+
         $product = Product::find($id);
 
-        return response()->json(['data' => $product], 200);
+        $resource = new Item($product, new ProductTransformer());
+
+        return $manager->createData($resource)->toArray();
 
     }
 
@@ -67,7 +93,9 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
 
-        \Validator::make($request->all(), [
+        $arr = [$request->input => $request->value];
+
+        \Validator::make($arr, [
             'product' => 'string',
             'price' => 'numeric',
             'stock' => 'integer',
@@ -76,7 +104,7 @@ class ProductController extends Controller
 
         $product = Product::find($id);
 
-        $product->update($request->all());
+        $product->update($arr);
 
         return response()->json(['message' => 'Actualizado correctamente'], 200);
 
