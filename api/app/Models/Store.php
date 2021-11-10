@@ -22,9 +22,7 @@ class Store extends Model
 
     public function scopeSearch($query, $word)
     {
-
         $query->where('store', 'like', "%$word%");
-
     }
 
 }

@@ -21,19 +21,29 @@ class StoreController extends Controller
     public function index(Request $request)
     {
 
-		$manager = new Manager();
+        $manager = new Manager();
 
-		$manager->setSerializer(new ArraySerializer());
+        $manager->setSerializer(new ArraySerializer());
 
-        $stores = Store::search($request->word)->paginate(1);
+        if($request->all){
 
-		$app = $stores->getCollection();
+            $stores = Store::orderBy('id','desc')->get();
+    
+            $resource = new Collection($stores, new StoreTransformer());	
+       
+        } else {
 
-		$resource = new Collection($app, new StoreTransformer());	
+            $stores = Store::search($request->word)->orderBy('id','desc')->paginate(1);
 
-		$resource->setPaginator(new IlluminatePaginatorAdapter($stores));
+            $app = $stores->getCollection();
+    
+            $resource = new Collection($stores, new StoreTransformer());	
+    
+            $resource->setPaginator(new IlluminatePaginatorAdapter($stores));
 
-		return $manager->createData($resource)->toArray();
+        }
+       
+        return $manager->createData($resource)->toArray();
 
     }
 
@@ -69,9 +79,15 @@ class StoreController extends Controller
     public function show($id)
     {
         
+        $manager = new Manager();
+
+        $manager->setSerializer(new ArraySerializer());
+
         $store = Store::find($id);
 
-        return response()->json(['data' => $store], 200);
+        $resource = new Item($store, new StoreTransformer());
+
+        return $manager->createData($resource)->toArray();
 
     }
 
