@@ -80,7 +80,7 @@
 
                     </v-data-table>
 
-                    <Pagination v-if="pagination.items > 0" :pagination="pagination" />
+                    <Pagination :pagination="pagination" />
 
                 </v-card>
 
@@ -151,7 +151,7 @@
 
         mounted() {
 
-			// this.$store.dispatch('panel/bookshop/books/setCategories');
+            this.$store.commit('pagination/changePage', 1);
 
             this.getItems();
 
@@ -170,6 +170,8 @@
                 getItems(){
 
                     this.$store.commit('pagination/changePaginationSection', {section:'stores'});
+
+                    console.log('pagin', this.pagination.page);
 
                     let page;
 

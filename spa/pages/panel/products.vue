@@ -66,6 +66,18 @@
                     no-data-text="¡Aún no tenés productos agregados!"
                     >
 
+                        <template v-slot:item.store.store="{item}">
+
+                            <v-chip 
+                            small 
+                            color="blue lighten-2"
+                            text-color="white"
+                            >
+                                {{ item.store.store }}
+                            </v-chip>
+                   
+                        </template>
+
                         <template v-slot:item.actions="{ item }">						
 
                             <v-btn class="mr-1" depressed fab x-small text color="primary" @click="editDialog(item.id)">
@@ -80,7 +92,7 @@
 
                     </v-data-table>
 
-                    <Pagination v-if="pagination.items > 0" :pagination="pagination" />
+                    <Pagination :pagination="pagination" />
 
                 </v-card>
 
@@ -120,6 +132,7 @@
 					sortable: false,
 					value: 'product'
 					},
+                    { text: 'Código', value: 'code', sortable: false, align:'left' },
                     { text: 'Precio', value: 'price', sortable: false, align:'left' },
                     { text: 'Stock', value: 'stock', sortable: false, align:'left' },
                     { text: 'Notificar (debajo de)', value: 'stock_notification_below', sortable: false, align:'left' },
@@ -155,7 +168,10 @@
 
         mounted() {
 
+            this.$store.commit('pagination/changePage', 1);
+
             this.getItems();
+
             this.$store.dispatch('stores/getStores');
 
         },
@@ -173,6 +189,8 @@
                 getItems(){
 
                     this.$store.commit('pagination/changePaginationSection', {section:'products'});
+
+                    console.log('pagin', this.pagination.page);
 
                     let page;
 

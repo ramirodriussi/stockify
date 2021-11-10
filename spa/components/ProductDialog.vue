@@ -44,6 +44,19 @@
 
 									<v-col cols="12">
 
+										<v-text-field
+											label="Código"
+											outlined
+											v-model="form.code"
+											dense
+											:rules="[rules.required]"
+											@change="updateInput('code', form.code)"
+										></v-text-field>
+
+									</v-col>
+
+									<v-col cols="12">
+
 										<v-select
 										:items="stores"
 										item-text="store"
@@ -152,6 +165,7 @@
 				loading: false,
 				form: {
                     product: '',
+					code: '',
                     stock: '',
                     stock_notification_below: '',
                     price: '',
@@ -212,6 +226,7 @@
 				let resp = await this.$axios.get(`/api/products/${this.dialog.id}`);
 
 				this.form.product = resp.data.product;
+				this.form.code = resp.data.code;
 				this.form.price = resp.data.price;
 				this.form.stock = resp.data.stock;
 				this.form.stock_notification_below = resp.data.stock_notification_below;
