@@ -36,10 +36,8 @@ class Product extends Model
             $query->whereHas('store', function($q) use ($id){
                 $q->where('id', $id);
             });
-
+            
         }
-
-        return $query;
 
     }
 

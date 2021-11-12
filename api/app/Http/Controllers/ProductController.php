@@ -20,12 +20,14 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
+        
+        $store = ($request->store && $request->store != 'all') ? $request->store : null;
 
 		$manager = new Manager();
 
 		$manager->setSerializer(new ArraySerializer());
 
-        $products = Product::search($request->word)->store($request->store)->orderBy('id', 'desc')->paginate(1);
+        $products = Product::search($request->word)->store($store)->orderBy('id', 'desc')->paginate(10);
 
 		$app = $products->getCollection();
 
