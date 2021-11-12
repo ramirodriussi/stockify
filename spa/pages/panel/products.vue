@@ -227,7 +227,7 @@
 								this.$axios.delete(`/api/products/${id}`)
 								.then(() => {
 
-                        			this.$store.commit('showSnackbar', {color:'success',text:'Producto eliminado exitosamente'});
+                        			this.$store.commit('showSnackbar', {color:'success',text:'Producto eliminado correctamente'});
 
                                 	this.getItems();
 
