@@ -23,6 +23,11 @@ class Product extends Model
         return $this->belongsTo('App\Models\Store');
     }
 
+    public function sale()
+    {
+        return $this->belongsToMany('App\Models\Sale');
+    }
+
     public function scopeSearch($query, $word)
     {
         $query->where('product', 'like', "%$word%");

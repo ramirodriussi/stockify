@@ -59,6 +59,7 @@
             { title: 'Inicio', icon: 'mdi-monitor-dashboard', route: {name:'panel'}},
             { title: 'Locales', icon: 'mdi-storefront-outline', route: {name:'panel-stores'}},
             { title: 'Productos', icon: 'mdi-shopping-outline', route: {name:'panel-products'}},
+            { title: 'Ventas', icon: 'mdi-cash-multiple', route: {name:'panel-sales'}},
 
         ],
         // right: null

@@ -87,6 +87,16 @@
    
         }
 
+        // sales
+
+        if (this.paginationSection == 'sales') {
+
+            (this.searchBoxPaginationActive) 
+                ? url = `/api/sales?word=${this.$store.getters['search/getSearch']}&page=${this.$store.getters['pagination/getPagination'].page}`
+                : url = `/api/sales?page=${this.$store.getters['pagination/getPagination'].page}`;
+   
+        }
+
         this.$store.dispatch('pagination/setItemsPagination', url);
 
       }
