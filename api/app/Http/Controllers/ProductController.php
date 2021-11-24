@@ -86,6 +86,27 @@ class ProductController extends Controller
 
     }
 
+    public function searchByCode($code)
+    {
+
+        $manager = new Manager();
+
+        $manager->setSerializer(new ArraySerializer());
+
+        $product = Product::where('code', $code)->first();
+
+        if(!$product){
+            return response()->json(['error' => 'El código ingresado no existe'], 400);
+        }
+
+        $fields = ['id','product','code','price'];
+
+        $resource = new Item($product, new ProductTransformer($fields));
+
+        return $manager->createData($resource)->toArray();
+
+    }
+
     /**
      * Update the specified resource in storage.
      *

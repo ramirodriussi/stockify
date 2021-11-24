@@ -25,7 +25,7 @@ class Product extends Model
 
     public function sale()
     {
-        return $this->belongsToMany('App\Models\Sale');
+        return $this->belongsToMany('App\Models\Sale')->withPivot('product','price','quantity');
     }
 
     public function scopeSearch($query, $word)

@@ -6,7 +6,7 @@ export const state = () => ({
         id: null,
     },
     sales: [],
-
+    cart: [],
 });
 
 export const mutations = {
@@ -28,6 +28,36 @@ export const mutations = {
 
     },
 
+    setItemCart: (state, payload) => {
+
+        let itemExists = state.cart.find(item => item.id === payload.id);
+
+        console.log(itemExists);
+
+        if(itemExists){
+            itemExists.quantity += payload.quantity;
+        } else {
+            state.cart.push(payload);
+        }
+
+    },
+
+    deleteItemCart: (state, payload) => {
+        state.cart = state.cart.filter(item => item.id != payload.item);
+    },
+
+    updateItemCart: (state, payload) => {
+        state.cart.find(item => item.id === payload.id).quantity = payload.quantity;
+    },
+
+    fillCart: (state, payload) => {
+        state.cart = payload;
+    },
+
+    clearCart: (state) => {
+        state.cart = [];
+    }
+
 };
 
 export const actions = {
@@ -40,7 +70,34 @@ export const actions = {
 
         commit('setSales', resp.data.data); 
 
-    }
+    },
+
+    async setItemCart({commit}, payload){
+
+        try {
+            
+            const resp = await this.$axios.get(`/api/products/code/${payload.code}`);
+
+            let item = {};
+
+            item.product = resp.data.product;
+            item.id = resp.data.id;
+            item.price = resp.data.price;
+            item.code = resp.data.code;
+            item.quantity = 1;
+    
+            commit('setItemCart', item);
+    
+            commit('showSnackbar', {color:'success',text:'Producto agregado al carrito'}, {root:true});
+
+        } catch (error) {
+          
+            commit('showSnackbar', {color:'error',text:'El código ingresado no existe'}, {root:true});
+
+        }
+
+    },
+
 
 
 };

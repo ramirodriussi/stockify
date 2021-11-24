@@ -13,7 +13,7 @@ class SaleTransformer extends TransformerAbstract
      * @var array
      */
     protected $defaultIncludes = [
-        //
+        'products',
     ];
     
     /**
@@ -35,10 +35,24 @@ class SaleTransformer extends TransformerAbstract
         return [
             'id' => $sale->id,
             'sale_id' => $sale->sale_id,
-            'products' => json_decode($sale->products, true),
-            'total_price' => $sale->total_price,
+            // 'products' => $sale->product,
+            // 'total_price' => $sale->total_price,
             'payment_type' => $sale->payment_type,
             'created_at' => $sale->created_at->format('d-m-Y h:m'),
         ];
     }
+
+    public function includeProducts(Sale $sale)
+    {
+
+        $fields = ['id','product','code','price','quantity'];
+
+        $q = $sale->product;
+
+        $transformer = new ProductTransformer($fields);
+        $transformer->setSaleId($sale->id);
+        return $this->collection($q, $transformer);
+
+    }
+
 }

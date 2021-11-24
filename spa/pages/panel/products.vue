@@ -78,6 +78,14 @@
                    
                         </template>
 
+                        <template v-slot:item.price="{ item }">						
+
+                            <td>
+                                $ {{item.price}}
+                            </td>
+
+                        </template>
+
                         <template v-slot:item.actions="{ item }">						
 
                             <v-btn class="mr-1" depressed fab x-small text color="primary" @click="editDialog(item.id)">

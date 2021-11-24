@@ -60,11 +60,19 @@
 
                     <v-data-table
                     :headers="headers"
-                    :items="sales"
+                    :items="computedSales"
                     :loading="loading"
                     hide-default-footer
                     no-data-text="¡Aún no tenés ventas!"
                     >
+
+                        <template v-slot:item.total="{ item }">						
+
+                            <td>
+                                $ {{item.total}}
+                            </td>
+
+                        </template>
 
                         <template v-slot:item.actions="{ item }">						
 
@@ -72,7 +80,7 @@
                                 <v-icon dark small>mdi-pencil</v-icon>
                             </v-btn>
 
-                            <v-btn depressed fab x-small text color="error" @click="deleteBook(item.id)">
+                            <v-btn depressed fab x-small text color="error" @click="deleteSale(item.id)">
                                 <v-icon dark small>mdi-delete-outline</v-icon>
                             </v-btn>
 
@@ -120,7 +128,8 @@
 					sortable: false,
 					value: 'sale_id'
 					},
-					{ text: 'Total', value: 'total_price', sortable: false, align:'left' },
+					{ text: 'Total', value: 'total', sortable: false, align:'left' },
+					{ text: 'Forma de pago', value: 'payment_type', sortable: false, align:'left' },
 					{ text: 'Fecha', value: 'created_at', sortable: false, align:'left' },
 					{ text: 'Acciones', value: 'actions', sortable: false, align:'right' },
 				],
@@ -140,7 +149,37 @@
                 sales: state => state.sales
             }),
 
-            ...mapGetters('pagination', ['getPagination'])
+            ...mapGetters('pagination', ['getPagination']),
+
+            computedSales(){
+
+                let arr = [];
+                let obj, total;
+
+                this.sales.map(item => {
+
+                    total = 0;
+
+                    item.products.data.map(subitem => {
+                        total += subitem.price * subitem.quantity;
+                    })
+
+                    obj = {
+                        id: item.id,
+                        sale_id: item.sale_id,
+                        payment_type: item.payment_type,
+                        created_at: item.created_at,
+                        total: Number(total).toFixed(2)
+                    }
+
+                    arr.push(obj);
+
+                })
+
+                return arr;
+
+
+            },
 
 
         },
@@ -187,7 +226,7 @@
 
                 },
 
-                deleteBook(id){
+                deleteSale(id){
 
                         this.$dialog.error({
                             title: 'Eliminar venta',

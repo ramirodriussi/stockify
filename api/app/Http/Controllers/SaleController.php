@@ -46,28 +46,45 @@ class SaleController extends Controller
     public function store(Request $request)
     {
 
-        $arr = $request->all();
+        // $arr = $request->all();
 
-        $products = collect(json_decode($request->products, true));
+        // $cart = collect(json_decode($request->cart, true));
 
-        dd($products);
+        // dd($cart);
 
-        \Validator::make($arr, [
-            'products' => 'required',
-            'total_price' => 'required|numeric',
-            'payment_type' => 'required',
+        \Validator::make($request->all(), [
+            'cart' => 'required',
+            'payment' => 'required',
         ])->validate();
-
-        // $sale_id = ['sale_id' => hexdec(uniqid())];
 
         $sale = new Sale();
 
         $sale->sale_id = hexdec(uniqid());
-        $sale->payment_type = $arr['payment_type'];
+        $sale->payment_type = $request->payment;
 
         $sale->save();
 
-        $products = [];
+        // attach product to product_sale table
+
+        $arr = [];
+
+        foreach ($request->cart as $value) {
+
+            $arr[$value['id']] = [
+
+                    'product' => $value['product'],
+                    'price' => $value['price'],
+                    'quantity' => $value['quantity'],
+
+            ];
+
+        }
+
+        $sale->product()->attach($arr);
+
+        // dd($arr);
+
+        // $products = [];
 
 
 
@@ -117,12 +134,12 @@ class SaleController extends Controller
         $arr = [$request->input => $request->value];
 
         \Validator::make($arr, [
-            'total_price' => 'numeric',
+            'quantity' => 'numeric',
         ])->validate();
 
         $sale = Sale::find($id);
 
-        $sale->update($arr);
+        $sale->product()->updateExistingPivot($request->id, $arr);
 
         return response()->json(['message' => 'Actualizado correctamente'], 200);
 
@@ -134,8 +151,28 @@ class SaleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+
+        if($request->id){
+
+            // elimino item de una venta realizada
+
+            // !!!!!!!!!!!!!!!!!!!!-------------------*************************
+
+            // tengo que buscar la cantidad que se vendio, y al eliminar el item, reintegrar el stock al inventario general del producto.
+
+            $sale = Sale::find($id);
+
+            $sale->product()->detach($request->id);
+
+            return response()->json(['message' => 'Item eliminado correctamente'], 200);
+
+        }
+        
+        // eliminio una venta completa
+
+        // tengo que buscar la cantidad de cada producto que se vendio, y reintegrar al inventario genral del producto
 
         $sale = Sale::find($id);
 
@@ -144,4 +181,5 @@ class SaleController extends Controller
         return response()->json(['message' => 'Eliminado correctamente'], 200);
 
     }
+
 }

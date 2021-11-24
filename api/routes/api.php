@@ -36,7 +36,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
 	Route::post('user/image/store', [ProfileController::class, 'updateLogo']);
 
-	// Stores ----------
+	Route::get('products/code/{code}', [ProductController::class, 'searchByCode']);
 
 	Route::apiResources([
 		'stores' => StoreController::class,

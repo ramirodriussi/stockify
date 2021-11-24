@@ -12,15 +12,13 @@ class Sale extends Model
     const UPDATED_AT = NULL;
 
     protected $fillable = [
-        'products',
-        'total_price',
-        'payment_type',
         'sale_id',
+        'payment_type',
     ];
 
     public function product()
     {
-        return $this->hasMany('App\Models\Product');
+        return $this->belongsToMany('App\Models\Product')->withPivot('product','price','quantity');
     }
 
     public function scopeSearch($query, $word)
