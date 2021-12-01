@@ -45,7 +45,7 @@ class SaleTransformer extends TransformerAbstract
     public function includeProducts(Sale $sale)
     {
 
-        $fields = ['id','product','code','price','quantity'];
+        $fields = ['id','product','code','price','quantity','stock'];
 
         $q = $sale->product;
 

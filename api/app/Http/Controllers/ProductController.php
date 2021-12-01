@@ -31,7 +31,9 @@ class ProductController extends Controller
 
 		$app = $products->getCollection();
 
-		$resource = new Collection($app, new ProductTransformer());	
+        $fields = ['id','product','code','stock','stock_notification_below','price','store'];
+
+		$resource = new Collection($app, new ProductTransformer($fields));	
 
 		$resource->setPaginator(new IlluminatePaginatorAdapter($products));
 
@@ -80,7 +82,9 @@ class ProductController extends Controller
 
         $product = Product::find($id);
 
-        $resource = new Item($product, new ProductTransformer());
+        $fields = ['id','product','code','stock','stock_notification_below','price','store'];
+
+        $resource = new Item($product, new ProductTransformer($fields));
 
         return $manager->createData($resource)->toArray();
 
@@ -99,7 +103,7 @@ class ProductController extends Controller
             return response()->json(['error' => 'El código ingresado no existe'], 400);
         }
 
-        $fields = ['id','product','code','price'];
+        $fields = ['id','product','code','price','stock'];
 
         $resource = new Item($product, new ProductTransformer($fields));
 

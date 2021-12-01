@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Sale;
+use App\Models\Product;
 use App\Transformers\SaleTransformer;
 use League\Fractal\Manager;
 use League\Fractal\Serializer\ArraySerializer;
@@ -44,13 +45,7 @@ class SaleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-
-        // $arr = $request->all();
-
-        // $cart = collect(json_decode($request->cart, true));
-
-        // dd($cart);
+    {   
 
         \Validator::make($request->all(), [
             'cart' => 'required',
@@ -67,6 +62,7 @@ class SaleController extends Controller
         // attach product to product_sale table
 
         $arr = [];
+        $stockArray = [];
 
         foreach ($request->cart as $value) {
 
@@ -78,23 +74,21 @@ class SaleController extends Controller
 
             ];
 
+            $stockArray[] = [
+                'id' => $value['id'],
+                'stock' => ['-', $value['quantity']]
+            ];
+
         }
 
         $sale->product()->attach($arr);
 
-        // dd($arr);
+        // stock decrement in product table
 
-        // $products = [];
+        $product = new Product;
+        $index = 'id';
 
-
-
-        // $sale->product()->attach($sale->id,)
-        
-        // $a = array_merge($arr, $sale_id);
-
-        // dd($a);
-
-        // $sale->create($a);
+        \Batch::update($product, $stockArray, $index);
 
         return response()->json(['message' => 'Agregado correctamente'], 200);
 
@@ -139,7 +133,25 @@ class SaleController extends Controller
 
         $sale = Sale::find($id);
 
-        $sale->product()->updateExistingPivot($request->id, $arr);
+        if($request->input == 'quantity'){
+
+            // descuento o sumo la diferencia en stock dependiendo si se agrega o resta cantidad del producto
+
+            $product = Product::find($request->id);
+
+            $request->operator == '+' ? $product->increment('stock', $request->diff) : $product->decrement('stock', $request->diff);
+
+            // actualizo tabla pivot con cantidades
+
+            $sale->product()->updateExistingPivot($request->id, $arr);
+
+        } else {
+
+            $sale->payment_type = $request->value;
+            
+            $sale->save();
+
+        }
 
         return response()->json(['message' => 'Actualizado correctamente'], 200);
 
@@ -153,28 +165,51 @@ class SaleController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-
+        // dd($request->all());
         if($request->id){
 
             // elimino item de una venta realizada
-
-            // !!!!!!!!!!!!!!!!!!!!-------------------*************************
-
-            // tengo que buscar la cantidad que se vendio, y al eliminar el item, reintegrar el stock al inventario general del producto.
 
             $sale = Sale::find($id);
 
             $sale->product()->detach($request->id);
 
+            // reintegro stock al producto
+
+            $product = Product::find($request->id);
+
+            $product->increment('stock', $request->quantity);
+
             return response()->json(['message' => 'Item eliminado correctamente'], 200);
 
         }
-        
+
         // eliminio una venta completa
 
-        // tengo que buscar la cantidad de cada producto que se vendio, y reintegrar al inventario genral del producto
-
         $sale = Sale::find($id);
+
+        // reintegro stock de los productos eliminados
+
+        if($request->reintegrate == 'true'){
+
+            $product = new Product;
+
+            $arr = [];
+
+            foreach ($sale->product()->get() as $key => $item) {
+
+                $arr[] = [
+                    'id' => $item->pivot->product_id,
+                    'stock' => ['+', $item->pivot->quantity],
+                ];
+
+            }
+
+            $index = 'id';
+
+            \Batch::update($product,$arr,$index);
+
+        }
 
         $sale->delete();
 

@@ -60,7 +60,7 @@
 
                     <v-data-table
                     :headers="headers"
-                    :items="computedSales"
+                    :items="sales"
                     :loading="loading"
                     hide-default-footer
                     no-data-text="¡Aún no tenés ventas!"
@@ -151,36 +151,9 @@
 
             ...mapGetters('pagination', ['getPagination']),
 
-            computedSales(){
-
-                let arr = [];
-                let obj, total;
-
-                this.sales.map(item => {
-
-                    total = 0;
-
-                    item.products.data.map(subitem => {
-                        total += subitem.price * subitem.quantity;
-                    })
-
-                    obj = {
-                        id: item.id,
-                        sale_id: item.sale_id,
-                        payment_type: item.payment_type,
-                        created_at: item.created_at,
-                        total: Number(total).toFixed(2)
-                    }
-
-                    arr.push(obj);
-
-                })
-
-                return arr;
-
-
+            sales(){
+                return this.$store.getters['sales/formatedSales'];
             },
-
 
         },
 
@@ -244,19 +217,45 @@
 
                             if (resp) {
 
-								this.$axios.delete(`/api/sales/${id}`)
-								.then(() => {
+                                this.$dialog.warning({
+                                    title: 'Reintegrar stock',
+                                    text: '¿Deseas reintegrar el stock a los productos eliminados de esta venta?',
+                                    actions: {
+                                        false: 'No, no reintegrar',
+                                        true: {
+                                            text: 'Sí, reintegrar',
+                                            color: 'warning',
+                                        }
 
-                        			this.$store.commit('showSnackbar', {color:'success',text:'Venta eliminada correctamente'});
+                                    },
+                                })
+                                .then(resp=>{
 
-                                	this.getItems();
+                                    this.$axios.delete(`/api/sales/${id}`, {params: {reintegrate: resp}})
+                                    .then(() => {
 
-								})
-								.catch(() => {
+                                    	this.$store.commit('showSnackbar', {color:'success',text:'Venta eliminada correctamente'});
 
-                        			this.$store.commit('showSnackbar', {color:'error',text:'No se pudo eliminar la venta'});
+                                    	this.getItems();
 
-								})
+                                    })
+                                    .catch(() => {
+
+                                    	this.$store.commit('showSnackbar', {color:'error',text:'No se pudo eliminar la venta'});
+
+                                    })
+
+                                    // if (resp) {
+
+                                    //     console.log('reintegrar');
+
+                                    // } else {
+
+                                    //     console.log('no reintegrar');
+
+                                    // }
+
+                                });
 
                             }
 

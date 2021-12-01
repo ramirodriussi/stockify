@@ -20,137 +20,141 @@
 
 			<v-card-text class="mt-4">
 
-                <v-row>
+				<v-form ref="form">
 
-					<v-col cols="12">
+					<v-row>
 
-						<v-form ref="form">
+						<v-col cols="12">
 
-							<v-row>
+								<v-row>
 
-								<v-col cols="12" md="6">
+									<v-col cols="12" md="6">
 
-									<v-text-field
-										label="Código de producto"
+										<v-text-field
+											label="Código de producto"
+											outlined
+											v-model="code"
+											dense
+											@change="getItemByCode"
+										></v-text-field>
+
+									</v-col>
+
+									<v-col cols="12" md="6">
+
+										<v-select
+										:items="payments"
+										item-text="payment"
+										item-value="id"
+										label="Medio de pago"
 										outlined
-										v-model="code"
 										dense
-										@change="getItemByCode"
-									></v-text-field>
+										v-model="paymentType"
+										:rules="[rules.required]"
+										@change="updatePaymentType"
+										></v-select>
 
-								</v-col>
+									</v-col>
 
-								<v-col cols="12" md="6">
+								</v-row>
 
-									<v-select
-									:items="payments"
-									item-text="payment"
-									item-value="id"
-									label="Medio de pago"
-									outlined
-									dense
-									v-model="paymentType"
-									:rules="[rules.required]"
-									></v-select>
+						</v-col>
 
-								</v-col>
+						<v-col cols="12">
 
-							</v-row>
-
-						</v-form>
-
-					</v-col>
-
-					<v-col cols="12">
-
-						<v-simple-table>
-							<template v-slot:default>
-							<thead>
-								<tr>
-									<th>
-										
-									</th>                            
-									<th class="text-left">
-										Producto
-									</th>
-									<th class="text-left">
-										Código
-									</th>
-									<th class="text-left">
-										Precio
-									</th>
-									<th class="text-left">
-										Cantidad
-									</th>
-									<th class="text-left">
-										Total
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr
-								v-for="(item, i) in formatedItems"
-								:key="i"
-								>
-								<td class="text-center ma-0 pa-0">
-									<v-btn
-										class="ma-2"
-										text
-										icon
-										color="red lighten-2"
-										@click="deleteItem(item.id)"
+							<v-simple-table>
+								<template v-slot:default>
+								<thead>
+									<tr>
+										<th>
+											
+										</th>                            
+										<th class="text-left">
+											Producto
+										</th>
+										<th class="text-left">
+											Código
+										</th>
+										<th class="text-left">
+											Precio
+										</th>
+										<th class="text-left">
+											Cantidad
+										</th>
+										<th class="text-left">
+											Stock
+										</th>
+										<th class="text-left">
+											Total
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr
+									v-for="(item, i) in cartItems"
+									:key="i"
 									>
-										<v-icon>mdi-delete</v-icon>
-									</v-btn>
-								</td>
-								<td>
-									{{ item.product }}
-								</td>
-								<td>
-									{{ item.code }}
-								</td>
-								<td>
-									{{ item.price }}
-								</td>
-								<td>
+									<td class="text-center ma-0 pa-0">
+										<v-btn
+											class="ma-2"
+											text
+											icon
+											color="red lighten-2"
+											@click="deleteItem(item)"
+										>
+											<v-icon>mdi-delete</v-icon>
+										</v-btn>
+									</td>
+									<td>
+										{{ item.product }}
+									</td>
+									<td>
+										{{ item.code }}
+									</td>
+									<td>
+										{{ item.price }}
+									</td>
+									<td>
 
-									<v-text-field
-										outlined
-										class="quantity-input rounded-lg mr-2 flex-shrink-0 flex-grow-1"
-										height="43"
-										hide-details
-										dense
-										type="number"
-										min="1"
-										max="99"
-										:value="item.quantity"
-										@change="updateQuantity($event, item.id)"
-									></v-text-field>
+										<v-text-field
+											outlined
+											class="quantity-input rounded-lg mr-2 flex-shrink-0 flex-grow-1"
+											height="43"
+											hide-details
+											dense
+											type="number"
+											min="1"
+											max="100"
+											:value="item.quantity"
+											@change="updateQuantity($event, item)"
+										></v-text-field>
 
-								</td>
-								<td>$ {{ item.total }}</td>
-								</tr>
-							</tbody>
-							</template>
-						</v-simple-table>
+									</td>
+									<td>{{ item.stock }}</td>
+									<td>$ {{ item.total }}</td>
+									</tr>
+								</tbody>
+								</template>
+							</v-simple-table>
 
-						<v-alert
-						color="grey lighten-4"
-						class="mt-3"
-						>
+							<v-alert
+							color="grey lighten-4"
+							class="mt-3"
+							>
 
-							<v-row>
-								<v-col cols="12">
-									<p class="mr-5 text-right ma-0"><strong>Total de la venta: $ {{ totalCart }}</strong></p>
-								</v-col>
-							</v-row>
-										
-						</v-alert>
+								<v-row>
+									<v-col cols="12">
+										<p class="mr-5 text-right ma-0"><strong>Total de la venta: $ {{ totalCart }}</strong></p>
+									</v-col>
+								</v-row>
+											
+							</v-alert>
 
-					</v-col>
+						</v-col>
 
-				</v-row>
+					</v-row>
 
+				</v-form>
 
 			</v-card-text>
 
@@ -198,7 +202,6 @@
 				loading: false,
 				code: '',
 				paymentType: '',
-				totalCart: 0,
 				saleId: '',
 				payments: [
 					{id: 'Efectivo', payment: 'Efectivo'},
@@ -208,6 +211,9 @@
 				],
 				rules: {
 					required : value => !!value || 'Debés completar este campo',
+					// max(item){
+					// 	return value => value <= item.stock || 'No tenés stock suficiente';
+					// },
 				}
 				
 			}
@@ -232,46 +238,19 @@
 
 			},
 
-            formatedItems(){
+			cartItems(){
+				return this.$store.getters['sales/cartItems'];
+			},
 
-                let arr = [];
-                let obj;
-
-                this.totalCart = 0;
-
-                this.cart.map(item => {
-
-                    console.log('item', item);
-
-                    obj = {};
-
-					obj.id = item.id;
-                    obj.product = item.product;
-                    obj.code = item.code;
-                    obj.price = item.price;
-                    obj.quantity = item.quantity;
-                    obj.total = Number(item.quantity * item.price).toFixed(2);
-
-                    this.totalCart += Number(obj.total);
-
-                    arr.push(obj);
-
-                });
-
-                this.totalCart = Number(this.totalCart).toFixed(2);
-
-                // if(this.dialog && !arr.length){
-                //     this.dialog = false;
-                // }
-
-                return arr;
-
-            },
+			totalCart(){
+				return this.$store.getters['sales/totalCart'];
+			},
 
 			...mapGetters('pagination', ['getPagination']),
 
 			...mapState('sales', {
-				cart: state => state.cart
+				cart: state => state.cart,
+				total: state => state.total,
 			}),
 
 		},
@@ -318,12 +297,6 @@
 				this.saleId = '';
 				this.loading = false;
 
-				// Object.keys(this.form).map(key => {
-
-				// 	this.form[key] = '';
-
-				// });
-
 			},
 
 			async saveSale(){
@@ -367,30 +340,103 @@
 
 			},
 
-            async updateQuantity(quantity, id){
+			updatePaymentType(){
 
 				if(this.dialog.id){
 
-					try {
-						await this.$axios.put(`/api/sales/${this.dialog.id}`, {input:'quantity', value:quantity, id})
-						
-					} catch {
-						
-						this.$store.commit('showSnackbar', {color:'error',text:'No se pudo actualizar. Intentá nuevamente'});
+					this.$dialog.warning({
+						title: 'Actualizar medio de pago',
+						text: 'Se actualizará el medio de pago de la venta. ¿Estas seguro?',
+						actions: {
+							false: 'No, cancelar',
+							true: {
+								text: 'Sí, actualizar',
+								color: 'warning',
+							}
 
-						return;
+						},
+					})
+					.then(resp=>{
 
-					}
+						if (resp) {
+
+							if(this.dialog.id){
+
+								this.$store.dispatch('sales/updatePaymentType', {saleId: this.dialog.id, paymentType:this.paymentType});
+
+							}
+
+						}
+
+					});
 
 				}
 
-                this.$store.commit('sales/updateItemCart', {quantity,id});
 
-                this.$store.commit('showSnackbar', {color:'success',text:'Cantidad actualizada correctamente'});
-                
+			},
+
+            updateQuantity(quantity, item){
+
+				if(this.dialog.add){
+
+					// validation rule
+
+					if(quantity > item.stock){
+						this.$store.commit('showSnackbar', {color:'error',text:'No tenés stock suficiente'});
+						return;
+					}
+
+					this.$store.commit('sales/updateItemCart', {quantity,id:item.id});
+
+				} else {
+
+					// validation rule
+
+					// stock: 5
+					// item.quantity: 7
+					// quantity: 8
+
+					// console.log('quantity', quantity,'item quantity',item.quantity,'item stock', item.stock);
+
+					if(quantity > item.quantity && (quantity - item.quantity) > item.stock){
+						this.$store.commit('showSnackbar', {color:'error',text:'No tenés stock suficiente'});
+						return;
+					}
+
+					this.$dialog.warning({
+						title: 'Actualizar cantidad',
+						text: 'Al actualizar la cantidad, se modificará el valor final de la venta y se actualizará el stock del producto. ¿Estas seguro?',
+						actions: {
+							false: 'No, cancelar',
+							true: {
+								text: 'Sí, actualizar',
+								color: 'warning',
+							}
+
+						},
+					})
+					.then(resp=>{
+
+						if (resp) {
+
+							if(!this.dialog.add){
+
+								let operator = quantity > item.quantity ? '-' : '+';
+								let diff = quantity > item.quantity ? (quantity - item.quantity) : (item.quantity - quantity);
+
+								this.$store.dispatch('sales/updateItemSaleQuantity', {saleId: this.dialog.id, quantity, id:item.id, operator, diff});
+
+							}
+
+						}
+
+					});
+
+				}
+             
             },
 
-            deleteItem(id){
+            deleteItem(item){
 
 				this.$dialog.error({
 					title: 'Eliminar producto',
@@ -410,24 +456,19 @@
 
 						if(this.dialog.id){
 
-							this.$axios.delete(`/api/sales/${this.dialog.id}`, {params: {id}})
+							this.$axios.delete(`/api/sales/${this.dialog.id}`, {params: {id:item.id, quantity:item.quantity}})
 							.catch(() => {
 
-								console.log('a');
-
-								// this.$store.commit('showSnackbar', {color:'error',text:'No se pudo eliminar la venta'});
-
+								this.$store.commit('showSnackbar', {color:'error',text:'No se pudo eliminar la venta'});
 								return;
 
 							})
 
 						}
 
-						console.log('b');
+						this.$store.commit('sales/deleteItemCart', {item});
 
-						// this.$store.commit('sales/deleteItemCart', {item});
-
-						// this.$store.commit('showSnackbar', {color:'success',text:'Producto eliminado correctamente'});
+						this.$store.commit('showSnackbar', {color:'success',text:'Producto eliminado correctamente'});
 
 					}
 

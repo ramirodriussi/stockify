@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('product');
             $table->decimal('price', 10, 2);
-            $table->integer('stock');
+            $table->integer('stock')->unsigned();
             $table->integer('stock_notification_below');
             $table->bigInteger('store_id')->unsigned();
             $table->foreign('store_id')->references('id')->on('stores')->onDelete('cascade');
