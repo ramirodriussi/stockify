@@ -2,148 +2,166 @@
 
 		<v-dialog
 			:value="dialog.show"
-			width="500"
 			@click:outside="closeDialog"
+			fullscreen
+			hide-overlay
+			transition="dialog-bottom-transition"
 		>
 		
 			<v-card>
 				
-			<v-card-title
-				class="headline headline-white blue darken-3"
-				primary-title
-				v-text="dialog.add ? 'Agregar producto' : 'Editar producto'"
-			>
-				
-
-			</v-card-title>
-
-			<v-progress-linear :indeterminate="loading"></v-progress-linear>
-
-			<v-card-text class="mt-4">
-
-                <v-row>
-
-					<v-col cols="12">
-
-						<v-form ref="form">
-
-								<v-row>
-
-									<v-col cols="12">
-
-										<v-text-field
-											label="Producto"
-											outlined
-											v-model="form.product"
-											dense
-											:rules="[rules.required]"
-											@change="updateInput('product', form.product)"
-										></v-text-field>
-
-									</v-col>
-
-									<v-col cols="12">
-
-										<v-text-field
-											label="Código"
-											outlined
-											v-model="form.code"
-											dense
-											:rules="[rules.required]"
-											@change="updateInput('code', form.code)"
-										></v-text-field>
-
-									</v-col>
-
-									<v-col cols="12">
-
-										<v-select
-										:items="stores"
-										item-text="store"
-										item-value="id"
-										label="Local"
-										outlined
-										dense
-										v-model="form.store_id"
-										:rules="[rules.required]"
-										@change="updateInput('store_id', form.store_id)"
-										></v-select>
-
-									</v-col>
-
-									<v-col cols="12">
-
-										<v-text-field
-											label="Precio"
-											outlined
-											v-model="form.price"
-											dense
-											:rules="[rules.required]"
-											@change="updateInput('price', form.price)"
-										></v-text-field>
-
-									</v-col>
-
-									<v-col cols="12">
-
-										<v-text-field
-											label="Stock"
-											outlined
-											v-model="form.stock"
-											dense
-											:rules="[rules.required]"
-											@change="updateInput('stock', form.stock)"
-										></v-text-field>
-
-									</v-col>
-
-									<v-col cols="12">
-
-										<v-text-field
-											label="Notificar stock debajo de"
-											outlined
-											v-model="form.stock_notification_below"
-											dense
-											:rules="[rules.required]"
-											@change="updateInput('stock_notification_below', form.stock_notification_below)"
-										></v-text-field>
-
-									</v-col>
-
-								</v-row>
-
-						</v-form>
-
-					</v-col>
-
-				</v-row>
-
-
-			</v-card-text>
-
-			<v-divider></v-divider>
-
-			<v-card-actions>
-				<v-spacer></v-spacer>
-				<v-btn
-				color="blue darken-3"
-				rounded
-				outlined
-				dark	
-				@click="closeDialog"
+				<v-toolbar
+				dark
+				color="primary"
 				>
-				Cerrar
+				<v-btn
+					icon
+					dark
+					@click="closeDialog"
+				>
+					<v-icon>mdi-close</v-icon>
 				</v-btn>
-				<v-btn
-				color="green darken-1"
-				rounded
-				dark	
-				@click="saveProduct"
-				v-if="dialog.add"
+				<v-toolbar-title>Settings</v-toolbar-title>
+				<v-spacer></v-spacer>
+				<v-toolbar-items>
+					<v-btn
+					dark
+					text
+					@click="saveProduct"
+					v-if="dialog.add"
+					>
+					Guardar
+					</v-btn>
+				</v-toolbar-items>
+				</v-toolbar>
+
+				<!-- <v-card-title
+					class="headline headline-white blue darken-3"
+					primary-title
+					v-text="dialog.add ? 'Agregar producto' : 'Editar producto'"
 				>
-				Guardar
-				</v-btn>				
-			</v-card-actions>
+					
+
+				</v-card-title> -->
+
+				<v-progress-linear :indeterminate="loading"></v-progress-linear>
+
+				<v-card-text class="mt-4">
+
+					<v-row>
+
+						<v-col cols="12" md="6">
+
+							<v-form ref="form">
+
+									<v-row>
+
+										<v-col cols="12">
+
+											<v-text-field
+												label="Producto"
+												outlined
+												v-model="form.product"
+												dense
+												:rules="[rules.required]"
+												@change="updateInput('product', form.product)"
+											></v-text-field>
+
+										</v-col>
+
+										<v-col cols="12">
+
+											<v-text-field
+												label="Código"
+												outlined
+												v-model="form.code"
+												dense
+												:rules="[rules.required]"
+												@change="updateInput('code', form.code)"
+											></v-text-field>
+
+										</v-col>
+
+										<v-col cols="12">
+
+											<v-select
+											:items="stores"
+											item-text="store"
+											item-value="id"
+											label="Local"
+											outlined
+											dense
+											v-model="form.store_id"
+											:rules="[rules.required]"
+											@change="updateInput('store_id', form.store_id)"
+											></v-select>
+
+										</v-col>
+
+										<v-col cols="12">
+
+											<v-text-field
+												label="Precio"
+												outlined
+												v-model="form.price"
+												dense
+												:rules="[rules.required]"
+												@change="updateInput('price', form.price)"
+											></v-text-field>
+
+										</v-col>
+
+										<v-col cols="12">
+
+											<v-text-field
+												label="Stock"
+												outlined
+												v-model="form.stock"
+												dense
+												:rules="[rules.required]"
+												@change="updateInput('stock', form.stock)"
+											></v-text-field>
+
+										</v-col>
+
+										<v-col cols="12">
+
+											<v-text-field
+												label="Notificar stock debajo de"
+												outlined
+												v-model="form.stock_notification_below"
+												dense
+												:rules="[rules.required]"
+												@change="updateInput('stock_notification_below', form.stock_notification_below)"
+											></v-text-field>
+
+										</v-col>
+
+									</v-row>
+
+							</v-form>
+
+						</v-col>
+
+						<v-col cols="12" md="6">
+
+							<div id="code">
+								<barcode :value="form.code" tag="img">
+								Show this if the rendering fails.
+								</barcode>
+							</div>
+						
+							<v-btn @click="print">
+								Imprimir
+							</v-btn>
+
+						</v-col>
+
+					</v-row>
+
+
+				</v-card-text>
+
 			</v-card>
 		</v-dialog>
 
@@ -155,8 +173,13 @@
 <script>
 
 	import { mapState, mapGetters } from 'vuex';
+	import VueBarcode from 'vue-barcode';
 
 	export default {
+
+		components: {
+			'barcode': VueBarcode,
+		},
 
 		data(){
 
@@ -173,8 +196,7 @@
                 },
 				rules: {
 					required : value => !!value || 'Debés completar este campo',
-				}
-				
+				},
 			}
 
 		},
@@ -314,6 +336,12 @@
 				this.$refs.form.resetValidation();
 
 			},
+
+			async print(){
+
+				await this.$htmlToPaper('code', {styles:['~/assets/style.css']});
+
+			}
 
 		}
 

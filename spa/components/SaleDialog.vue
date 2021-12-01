@@ -28,6 +28,18 @@
 
 								<v-row>
 
+									<v-col cols="12">
+
+										<div class="reader-box">
+											<v-quagga :onDetected="logIt" :readerSize="readerSize" :readerTypes="['ean_reader']"></v-quagga>
+										</div>
+
+									</v-col>
+
+								</v-row>
+
+								<v-row>
+
 									<v-col cols="12" md="6">
 
 										<v-text-field
@@ -195,6 +207,10 @@
 
 	export default {
 
+		// components: {
+		// 	'v-quagga' : VueQuagga,
+		// },
+
 		data(){
 
 			return {
@@ -214,7 +230,14 @@
 					// max(item){
 					// 	return value => value <= item.stock || 'No tenés stock suficiente';
 					// },
-				}
+				},
+
+				readerSize: {
+					width: 640,
+					height: 480
+				},
+				detecteds: []
+
 				
 			}
 
@@ -268,6 +291,10 @@
 		},
 
 		methods: {
+
+			logIt (data) {
+				console.log('detected', data)
+			},
 
 			async getItemByCode(){
 
@@ -533,6 +560,10 @@
 
 	>>>.v-expansion-panel-content__wrap {
 		padding: 0 10px 0 10px;
+	}
+
+	.reader-box {
+		height: 480px;
 	}
 
 </style>

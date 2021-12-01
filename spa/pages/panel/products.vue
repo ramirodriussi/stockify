@@ -88,6 +88,10 @@
 
                         <template v-slot:item.actions="{ item }">						
 
+                            <v-btn class="mr-1" depressed fab x-small text color="warning" @click="toPrintPage(item.code)">
+                                <v-icon dark small>mdi-printer</v-icon>
+                            </v-btn>
+
                             <v-btn class="mr-1" depressed fab x-small text color="primary" @click="editDialog(item.id)">
                                 <v-icon dark small>mdi-pencil</v-icon>
                             </v-btn>
@@ -192,6 +196,14 @@
 
                 editDialog(id){
                     this.$store.commit('products/showDialog', {add: false,id});
+                },
+
+                toPrintPage(code){
+
+                    console.log(code);
+
+                    window.open(`products/print/${code}`, '_blank');
+
                 },
 
                 getItems(){
