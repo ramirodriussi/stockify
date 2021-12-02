@@ -148,7 +148,7 @@
 
 				let resp = await this.$axios.get(`/api/stores/${this.dialog.id}`);
 
-				this.form.store = resp.data.data.store;
+				this.form.store = resp.data.store;
                 console.log(resp);
 
 			},

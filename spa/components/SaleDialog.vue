@@ -26,9 +26,9 @@
 
 						<v-col cols="12">
 
-								<v-row>
+								<v-row v-if="dialog.add">
 
-									<v-col cols="12">
+									<v-col cols="12" v-if="camera">
 
 										<div class="reader-box">
 											<v-quagga :onDetected="logIt" :readerSize="readerSize" :readerTypes="['ean_reader']"></v-quagga>
@@ -36,11 +36,20 @@
 
 									</v-col>
 
+									<v-col>
+										<v-btn color="primary" v-if="!camera" @click="camera = !camera">
+											Iniciar scanner
+										</v-btn>
+										<v-btn color="primary" v-else @click="camera = !camera">
+											Detener scanner
+										</v-btn>
+									</v-col>
+
 								</v-row>
 
 								<v-row>
 
-									<v-col cols="12" md="6">
+									<v-col v-if="dialog.add" cols="12" md="6">
 
 										<v-text-field
 											label="Código de producto"
@@ -207,10 +216,6 @@
 
 	export default {
 
-		// components: {
-		// 	'v-quagga' : VueQuagga,
-		// },
-
 		data(){
 
 			return {
@@ -231,7 +236,8 @@
 					// 	return value => value <= item.stock || 'No tenés stock suficiente';
 					// },
 				},
-
+				
+				camera: false,
 				readerSize: {
 					width: 640,
 					height: 480
@@ -293,7 +299,10 @@
 		methods: {
 
 			logIt (data) {
-				console.log('detected', data)
+				console.log('detected', data.codeResult.code)
+				this.code = data.codeResult.code;
+				this.camera = false;
+				this.getItemByCode();
 			},
 
 			async getItemByCode(){

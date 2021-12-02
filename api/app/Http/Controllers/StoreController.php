@@ -8,7 +8,7 @@ use App\Transformers\StoreTransformer;
 use League\Fractal\Manager;
 use League\Fractal\Serializer\ArraySerializer;
 use League\Fractal\Resource\Collection;
-// use League\Fractal\Resource\Item;
+use League\Fractal\Resource\Item;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
 class StoreController extends Controller
