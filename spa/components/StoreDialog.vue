@@ -69,9 +69,11 @@
 				<v-btn
 				color="green darken-1"
 				rounded
-				dark	
+				:dark="!loading"	
 				@click="saveStore"
 				v-if="dialog.add"
+				:loading="loading"
+				:disabled="loading"
 				>
 				Guardar
 				</v-btn>				

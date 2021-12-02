@@ -195,9 +195,11 @@
 				<v-btn
 				color="green darken-1"
 				rounded
-				dark	
+				:dark="!loading"
 				@click="saveSale"
 				v-if="dialog.add"
+				:disabled="loading"
+				:loading="loading"
 				>
 				Guardar
 				</v-btn>				
@@ -338,6 +340,8 @@
 			async saveSale(){
 
 				if (this.$refs.form.validate()) {
+
+					this.loading = !this.loading;
 
 					try {
 						

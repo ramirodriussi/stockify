@@ -11,6 +11,9 @@ use League\Fractal\Serializer\ArraySerializer;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
+use App\Mail\StockNotification;
+use Illuminate\Support\Facades\Mail;
+
 
 class SaleController extends Controller
 {
@@ -63,8 +66,11 @@ class SaleController extends Controller
 
         $arr = [];
         $stockArray = [];
+		$ids = [];
 
         foreach ($request->cart as $value) {
+
+            $ids[] = $value['id'];
 
             $arr[$value['id']] = [
 
@@ -89,6 +95,20 @@ class SaleController extends Controller
         $index = 'id';
 
         \Batch::update($product, $stockArray, $index);
+
+        // chequeo de stock
+
+		$products = Product::whereIn('id', $ids)->get();
+
+        foreach ($products as $product) {
+
+            if($product->stock < $product->stock_notification_below){
+
+                Mail::to(env('APP_EMAIL'))->send(new StockNotification($product));
+
+            }
+
+        }
 
         return response()->json(['message' => 'Agregado correctamente'], 200);
 
