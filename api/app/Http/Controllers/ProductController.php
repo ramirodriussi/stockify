@@ -10,6 +10,8 @@ use League\Fractal\Serializer\ArraySerializer;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
+use App\Exports\ExportProducts;
+
 
 class ProductController extends Controller
 {
@@ -136,6 +138,11 @@ class ProductController extends Controller
 
         return response()->json(['message' => 'Actualizado correctamente'], 200);
 
+    }
+
+    public function export()
+    {
+        return (new ExportProducts)->download('export.xlsx');
     }
 
     /**

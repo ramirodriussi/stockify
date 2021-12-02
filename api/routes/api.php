@@ -38,6 +38,8 @@ Route::middleware('auth:sanctum')->group(function() {
 
 	Route::get('products/code/{code}', [ProductController::class, 'searchByCode']);
 
+	Route::get('products/export', [ProductController::class, 'export']);
+
 	Route::apiResources([
 		'stores' => StoreController::class,
 		'products' => ProductController::class,

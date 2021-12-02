@@ -54,9 +54,25 @@
 
                 <v-card class="elevation-4 pa-3">
             
-                    <v-col cols="12" sm="4">
-                        <SearchBox section="products" />
-                    </v-col>
+                    <v-row>
+
+                        <v-col cols="12" sm="4">
+                            <SearchBox section="products" />
+                        </v-col>
+
+                        <v-col cols="12" sm="4">
+                            
+                            <v-btn href="http://localhost:8000/api/products/export" tag="a" download rounded small color="default" @click="exportItems">
+                                <v-icon color="grey">mdi-download</v-icon> Exportar
+                            </v-btn>
+
+                            <v-btn rounded small color="default" @click="importItems">
+                                <v-icon color="grey">mdi-upload</v-icon> Importar
+                            </v-btn>
+
+                        </v-col>
+
+                    </v-row>
 
                     <v-data-table
                     :headers="headers"
@@ -203,6 +219,26 @@
                     console.log(code);
 
                     window.open(`products/print/${code}`, '_blank');
+
+                },
+
+                async exportItems(){
+
+                    // let resp = await this.$axios.get('/api/products/export', {responseType: 'arrayBuffer'})
+                    // .then((resp)=> {
+                    //     var fileURL = window.URL.createObjectURL(new Blob([resp.data]));
+                    //     var fileLink = document.createElement('a');
+                    //     fileLink.href = fileURL;
+                    //     fileLink.setAttribute('download', 'test.xlsx');
+                    //     document.body.appendChild(fileLink);
+                    //     fileLink.click();
+                    // })
+
+                },
+
+                importItems(){
+
+
 
                 },
 
