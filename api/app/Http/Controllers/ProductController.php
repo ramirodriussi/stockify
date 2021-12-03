@@ -11,6 +11,7 @@ use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use App\Exports\ExportProducts;
+use App\Imports\ImportProducts;
 
 
 class ProductController extends Controller
@@ -137,6 +138,39 @@ class ProductController extends Controller
         $product->update($arr);
 
         return response()->json(['message' => 'Actualizado correctamente'], 200);
+
+    }
+
+    public function import(Request $request)
+    {
+
+        // $ext = $request->file('excel')->getClientOriginalExtension();
+
+        // $name = 'products.' . $ext;
+
+        // $path = $request->file('excel')->storeAs('files',$name);
+
+        // \DB::table('files')->delete();
+
+        // $file = new File();
+
+        // $file->file = $name;
+        // $file->path = $path;
+
+        // $file->save();
+
+        // Import
+
+        // dd($request->all());
+
+        $import = new ImportProducts;
+        $import->import($request->file('file'));
+
+        return response()->json(['message' => 'Subiendo archivo']);
+
+        // Excel::queueImport(new ProductsImport, request()->file('excel'));
+
+        // return back()->withStatus('uploading');
 
     }
 

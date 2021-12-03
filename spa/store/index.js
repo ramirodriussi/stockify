@@ -14,6 +14,7 @@ export const state = () => ({
     profileDialog: false,
     skeleton: false,
     loading: false,
+    dialog: false,
 
 });
 
@@ -40,6 +41,10 @@ export const mutations = {
 
     setProfileDialog: (state) => {
         state.profileDialog = !state.profileDialog;
+    },
+
+    setDialog: (state) => {
+        state.dialog = !state.dialog;
     },
 
     showSkeleton: (state, payload) => {
@@ -75,6 +80,10 @@ export const getters = {
 
     getProfileDialog: (state) => {
         return state.profileDialog;
+    },
+
+    getDialog: (state) => {
+        return state.dialog;
     }
 
 };

@@ -62,11 +62,11 @@
 
                         <v-col cols="12" sm="4">
                             
-                            <v-btn href="http://localhost:8000/api/products/export" tag="a" download rounded small color="default" @click="exportItems">
+                            <v-btn href="http://localhost:8000/api/products/export" tag="a" download rounded small color="default">
                                 <v-icon color="grey">mdi-download</v-icon> Exportar
                             </v-btn>
 
-                            <v-btn rounded small color="default" @click="importItems">
+                            <v-btn rounded small color="default" @click="showImportDialog">
                                 <v-icon color="grey">mdi-upload</v-icon> Importar
                             </v-btn>
 
@@ -129,6 +129,7 @@
         </v-row>
 
         <ProductDialog/>
+        <ImportProductDialog/>
 
     </div>
 
@@ -138,6 +139,7 @@
 
 	import { mapState, mapGetters } from 'vuex';
     import ProductDialog from '@/components/ProductDialog';
+    import ImportProductDialog from '@/components/ImportProductDialog';
     import Pagination from '@/components/Pagination';
     import SearchBox from '@/components/SearchBox';
 
@@ -147,6 +149,7 @@
             ProductDialog,
             Pagination,
             SearchBox,
+            ImportProductDialog,
         },
 		
 		data () {
@@ -167,6 +170,7 @@
                     { text: 'Local', value: 'store.store', sortable: false, align:'left' },
 					{ text: 'Acciones', value: 'actions', sortable: false, align:'center' },
 				],
+                selectedFile: '',
 
 			}
 		},
@@ -222,23 +226,9 @@
 
                 },
 
-                async exportItems(){
+                showImportDialog(){
 
-                    // let resp = await this.$axios.get('/api/products/export', {responseType: 'arrayBuffer'})
-                    // .then((resp)=> {
-                    //     var fileURL = window.URL.createObjectURL(new Blob([resp.data]));
-                    //     var fileLink = document.createElement('a');
-                    //     fileLink.href = fileURL;
-                    //     fileLink.setAttribute('download', 'test.xlsx');
-                    //     document.body.appendChild(fileLink);
-                    //     fileLink.click();
-                    // })
-
-                },
-
-                importItems(){
-
-
+                    this.$store.commit('setDialog');
 
                 },
 
