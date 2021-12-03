@@ -333,7 +333,7 @@
 				this.code = '';
 				this.paymentType = '';
 				this.saleId = '';
-				this.loading = false;
+				// this.loading = false;
 
 			},
 

@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,7 @@ Route::middleware('auth:sanctum')->group(function() {
 		'stores' => StoreController::class,
 		'products' => ProductController::class,
 		'sales' => SaleController::class,
+		'dashboard' => DashboardController::class,
 	]);
 
 
