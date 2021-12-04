@@ -7,18 +7,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class StockNotification extends Mailable
+class DailySales extends Mailable
 {
     use Queueable, SerializesModels;
+
+    protected $data;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($product)
+    public function __construct($data)
     {
-        $this->product = $product;
+        $this->data = $data;
     }
 
     /**
@@ -28,9 +30,10 @@ class StockNotification extends Mailable
      */
     public function build()
     {
-        return $this->from('no-reply@stockify.com.ar')
-                    ->subject('Notificación de bajo stock')
-                    ->with(['product' => $this->product])
-                    ->view('emails.stockNotification');
+
+        return $this->markdown('emails.dailySales')
+                    ->with(['data' => $this->data]);
+
+        // return $this->markdown('emails.dailySales');
     }
 }

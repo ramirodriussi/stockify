@@ -42,6 +42,8 @@ Route::middleware('auth:sanctum')->group(function() {
 	Route::get('products/export', [ProductController::class, 'export']);
 
 	Route::post('products/import', [ProductController::class, 'import']);
+
+	Route::get('sale/day', [SaleController::class, 'salesOfTheDay']);
 	
 	Route::apiResources([
 		'stores' => StoreController::class,

@@ -12,6 +12,7 @@ use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use App\Mail\StockNotification;
+use App\Mail\DailySales;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -38,6 +39,49 @@ class SaleController extends Controller
 		$resource->setPaginator(new IlluminatePaginatorAdapter($sales));
 
 		return $manager->createData($resource)->toArray();
+
+    }
+
+    public function salesOfTheDay()
+    {
+
+        $sales = Sale::whereDate('created_at', \Carbon\Carbon::now())->get();
+
+        // Mail::to(env('APP_EMAIL'))->send(new DailySales($sales));
+
+        // total sales
+
+        $salesArray = [];
+        $totalSale = 0;
+
+        foreach ($sales as $key => $sale) {
+
+            $totalSale = $sale->product()->get()->reduce(fn($a, $p) => $a + ($p->pivot->price * $p->pivot->quantity), 0);
+
+            $salesArray[] = [
+                'sale' => $sale->sale_id,
+                'payment_type' => $sale->payment_type,
+                'total' => $totalSale,
+            ];
+
+            $totalSale = 0;
+
+        }
+
+        // total per day
+
+        $total = 0;
+
+        foreach ($salesArray as $item) {
+            $total += $item['total'];
+        }
+
+        $data = [
+            'sales' => $salesArray,
+            'total' => $total,
+        ];
+
+        return new DailySales($data);
 
     }
 

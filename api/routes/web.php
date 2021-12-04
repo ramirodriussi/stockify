@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SaleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,6 +13,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/email', [SaleController::class, 'salesOfTheDay']);
+
+// Route::get('/demo', function () {
+//     return new App\Mail\DailySalesEmail();
+// });
 
 Route::get('/', function () {
     return view('welcome');
