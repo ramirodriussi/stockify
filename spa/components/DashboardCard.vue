@@ -20,10 +20,10 @@
             {{ title }}
         </v-card-title>
 
-        <v-card-subtitle class="mt-0">50</v-card-subtitle>
+        <v-card-subtitle class="mt-0">{{ info }}</v-card-subtitle>
 
         <div class="box-icon">		
-            <v-icon size="100">mdi-calendar</v-icon>					
+            <v-icon size="100">{{ icon }}</v-icon>					
         </div>	
 
         </v-card>
@@ -48,6 +48,15 @@
 
             color: {
                 type: String
+            },
+
+            info: {
+                type: Number|String,
+                default: 0,
+            },
+
+            icon: {
+                type: String,
             }
 
         },

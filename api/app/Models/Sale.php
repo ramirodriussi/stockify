@@ -26,4 +26,16 @@ class Sale extends Model
         $query->where('sale_id', 'like', "%$word%");
     }
 
+    public function scopeBetweenDates($query, $from, $to)
+    {
+
+        if($to != '')
+        {
+            return $query->whereBetween('created_at', [$from, $to]);
+        }
+
+        return $query->whereDate('created_at', $from);
+
+    }
+
 }

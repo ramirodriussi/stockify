@@ -15,15 +15,30 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         
-        // $today = \Carbon\Carbon::today();
-        // $currentMonth = \Carbon\Carbon::now()->month;
-        // $currentYear = \Carbon\Carbon::now()->year;
+        $sales = Sale::betweenDates($request->from, $request->to)->get();
+        $salesThisMonth = Sale::whereMonth('created_at', \Carbon\Carbon::now()->month)->get();
 
-        // $sales = Sale::whereYear('created_at', $currentYear)->get();
+        $totalSales = $sales->count();
 
+        $totalEarnings = 0;
 
+        foreach ($sales as $key => $item) {
+            $totalEarnings += $item->product()->get()->reduce(fn($a, $p) => $a + ($p->pivot->price * $p->pivot->quantity), 0);
+        }
 
-        // return response()->json(['daily' => $dailyArray, 'monthly' => $monthlyArray, 'yearly' => $yearlyArray], 200);
+        $totalEarningsThisMonth = 0;
+
+        foreach ($salesThisMonth as $key => $item) {
+            $totalEarningsThisMonth += $item->product()->get()->reduce(fn($a, $p) => $a + ($p->pivot->price * $p->pivot->quantity), 0);
+        }
+
+        $arr = [
+            'sales' => $totalSales,
+            'earnings' => $totalEarnings,
+            'earningsThisMonth' => $totalEarningsThisMonth,
+        ];
+
+        return response()->json(['data' => $arr], 200);
 
     }
 

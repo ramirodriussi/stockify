@@ -2,37 +2,83 @@
     
     <v-row>
 
-        <v-col cols="12" md="4">
+        <v-col cols="12">
 
-            <DashboardCard title="Ventas del día" color="deep-purple lighten-2" />
+            <v-alert
+            color="grey lighten-4"
+            prominent
+            icon="mdi-calendar"
+            class="rounded-lg mb-0"
+            >
+            <v-row align="center">
+                <v-col class="grow">
+                Datos del día
+                </v-col>
+                <v-col class="shrink">
+
+                    <!-- calendar dialog  -->
+
+                    <v-dialog
+                        ref="dialog"
+                        v-model="dialog"
+                        width="290px"
+                    >
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                            v-bind="attrs"
+                            v-on="on"
+                            outlined
+                            color="grey"
+                            >
+                            Personalizar fecha
+                            </v-btn>
+                        </template>
+                        <v-date-picker
+                        v-model="dates"
+                        scrollable
+                        range
+                        >
+                        <v-spacer></v-spacer>
+                        <v-btn
+                            text
+                            color="primary"
+                            @click="dialog = false"
+                        >
+                            Cancelar
+                        </v-btn>
+                        <v-btn
+                            text
+                            color="primary"
+                            @click="changeDate"
+                        >
+                            Aplicar
+                        </v-btn>
+                        </v-date-picker>
+                    </v-dialog>
+
+                </v-col>
+            </v-row>
+            </v-alert>
 
         </v-col>
 
         <v-col cols="12" md="4">
 
-            <DashboardCard title="Ganancias del día" color="deep-purple lighten-2" />
+            <DashboardCard title="Ventas del día" color="deep-purple lighten-2" :info="sales" icon="mdi-currency-usd" />
 
         </v-col>
 
         <v-col cols="12" md="4">
 
-            <DashboardCard title="Ganancias de febrero" color="green lighten-2" />
+            <DashboardCard title="Ganancias del día" color="deep-purple lighten-2" :info="earnings" icon="mdi-cash-register" />
 
         </v-col>
 
         <v-col cols="12" md="4">
 
-            <v-date-picker
-                v-model="dates"
-                range
-                full-width
-                class="rounded-xl"
-            ></v-date-picker>
-
-            {{dates}}
+            <DashboardCard :title="`Ganancias de ${month}`" color="green lighten-2" :info="earningsThisMonth" icon="mdi-calendar" />
 
         </v-col>
-
 
     </v-row>
 
@@ -53,9 +99,14 @@
          
             return {
 
+                dialog: false,
                 dates: [],
                 from: '',
                 to: '',
+                month: '',
+                sales: 0,
+                earnings: 0,
+                earningsThisMonth: 0,
 
             }
 
@@ -71,7 +122,13 @@
 
             dates(){
 
-                console.log('cambia');
+                if(this.dates.length > 1){
+                    this.from = this.dates[0];
+                    this.to = this.dates[1];
+                } else {
+                    this.from = this.dates[0];
+                    this.to = '';
+                }
 
             }
 
@@ -83,6 +140,9 @@
 
             this.dates.push(today);
             this.from = today;
+            this.month = this.getCurrentMonth();
+
+            this.getData();
 
             // let resp = this.$axios.get(`/api/dashboard?from=${this.from}`);
 
@@ -92,11 +152,46 @@
 
         methods: {
 
-            changeDate(){
+            async getData(){
 
-                // console.log('bb');
+                let resp =  await this.$axios.get(`/api/dashboard?from=${this.from}&to=${this.to}`);
 
-            }
+                console.log(resp);
+                this.sales = resp.data.data.sales;
+                this.earnings = this.formatCurrency(resp.data.data.earnings);
+                this.earningsThisMonth = this.formatCurrency(resp.data.data.earningsThisMonth);
+
+            },
+
+            formatCurrency(val){
+
+                let currencyLocale = Intl.NumberFormat('es-AR', {
+                    style: 'currency',
+                    currency: 'ARS'
+                });
+
+                return currencyLocale.format(val);
+
+            },
+
+            getCurrentMonth(){
+
+                let arr = [
+                    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+                ];
+
+                let date = new Date();
+
+                return arr[date.getMonth()];
+
+           },
+
+           changeDate(){
+
+               this.getData();
+               this.dialog = false;
+
+           }
 
         }
 
