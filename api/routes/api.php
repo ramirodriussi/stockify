@@ -9,6 +9,7 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +26,7 @@ Route::middleware('auth:sanctum')->group(function() {
 
 	// General  -------
 
-	Route::get('user', [UserController::class, 'show']);
+	// Route::get('user', [UserController::class, 'show']);
 
 	// Profile --------
 
@@ -46,6 +47,8 @@ Route::middleware('auth:sanctum')->group(function() {
 	Route::get('sale/day', [SaleController::class, 'salesOfTheDay']);
 	
 	Route::apiResources([
+		'users' => UserController::class,
+		'roles' => RoleController::class,
 		'stores' => StoreController::class,
 		'products' => ProductController::class,
 		'sales' => SaleController::class,

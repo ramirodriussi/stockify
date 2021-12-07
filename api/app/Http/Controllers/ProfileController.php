@@ -158,7 +158,6 @@ class ProfileController extends Controller
 			[
 				'image' => $imgPath,
 				'logo' => 1,
-				'main' => 0,
 				'user_id' => $user->id,
 				'created_at' => \Carbon\Carbon::now(),
 

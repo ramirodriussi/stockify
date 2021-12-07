@@ -98,7 +98,7 @@
 					}})
 					.then(resp=>{
 						console.log(resp)
-						this.$store.commit('panel/ui/setLogo', {avatar:fileUrl, isWelcomePage: false});
+						this.$store.commit('setLogo', {avatar:fileUrl, isWelcomePage: false});
 
 						this.$store.commit('showSnackbar', {color:'success',text:'Modificado exitosamente'});
 

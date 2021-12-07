@@ -107,7 +107,7 @@
 
 <script>
 
-  import { mapState, mapGetters } from 'vuex';
+  import { mapState } from 'vuex';
   import ProfileDialog from '@/components/ProfileDialog';
   import Navbar from '@/components/Navbar';
 

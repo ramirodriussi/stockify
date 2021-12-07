@@ -97,6 +97,16 @@
    
         }
 
+        // users
+
+        if (this.paginationSection == 'users') {
+
+            (this.searchBoxPaginationActive) 
+                ? url = `/api/users?word=${this.$store.getters['search/getSearch']}&page=${this.$store.getters['pagination/getPagination'].page}`
+                : url = `/api/users?page=${this.$store.getters['pagination/getPagination'].page}`;
+   
+        }
+
         this.$store.dispatch('pagination/setItemsPagination', url);
 
       }

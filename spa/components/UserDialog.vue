@@ -11,7 +11,7 @@
 			<v-card-title
 				class="headline headline-white blue darken-3"
 				primary-title
-				v-text="dialog.add ? 'Agregar local' : 'Editar local'"
+				v-text="dialog.add ? 'Agregar usuario' : 'Editar usuario'"
 			>
 				
 
@@ -32,13 +32,55 @@
 									<v-col cols="12">
 
 										<v-text-field
-											label="Local"
+											label="Nombre"
 											outlined
-											v-model="form.store"
+											v-model="form.name"
 											dense
 											:rules="[rules.required]"
-											@change="updateInput('store', form.store)"
+											@change="updateInput('name', form.name)"
 										></v-text-field>
+
+									</v-col>
+
+									<v-col cols="12">
+
+										<v-text-field
+											label="Correo Electrónico"
+											outlined
+											v-model="form.email"
+											dense
+											:rules="[rules.required, rules.email]"
+											@change="updateInput('email', form.email)"
+										></v-text-field>
+
+									</v-col>
+
+									<v-col cols="12">
+
+										<v-text-field
+											label="Contraseña"
+											outlined
+											v-model="form.password"
+											dense
+											:rules="[rules.requiredPassword(dialog.add), rules.password]"
+											@change="updateInput('password', form.password)"
+										></v-text-field>
+
+									</v-col>
+
+									<v-col cols="12">
+
+											<v-select
+											:items="roles"
+											item-text="role"
+											item-value="id"
+											label="Rol"
+											outlined
+											dense
+											v-model="form.role_id"
+											:rules="[rules.required]"
+											@change="updateInput('role_id', form.role_id)"
+											></v-select>
 
 									</v-col>
 
@@ -70,7 +112,7 @@
 				color="green darken-1"
 				rounded
 				:dark="!loading"	
-				@click="saveStore"
+				@click="saveUser"
 				v-if="dialog.add"
 				:loading="loading"
 				:disabled="loading"
@@ -98,10 +140,35 @@
 
 				loading: false,
 				form: {
-                    store: '',
+                    name: '',
+                    email: '',
+                    password: '',
+                    role_id: '',
                 },
 				rules: {
-					required : value => !!value || 'Debés completar este campo',
+					required: value => !!value || 'Debés completar este campo',
+                    email : value => {
+                        return this.validEmail(value) || 'Debés ingresar un email válido'
+                    },
+					requiredPassword(add){
+
+						if(add){
+							return value => !!value || 'Debés completar este campo'
+						}
+
+						return true;
+
+					},
+                    password(add){
+
+						if(add){
+							return value => (value && value.length >= 8) || 'La contraseña debe tener mínimo 8 caracteres'
+						}
+
+						return true;
+
+					}
+
 				}
 				
 			}
@@ -113,7 +180,7 @@
 			dialog: {
 
 				get() {
-					return this.$store.getters['stores/getDialog'];
+					return this.$store.getters['users/getDialog'];
 				},
 
 				set() {
@@ -126,7 +193,11 @@
 
 			},
 
-			...mapGetters('pagination', ['getPagination'])
+			...mapGetters('pagination', ['getPagination']),
+
+			...mapState('users', {
+				roles: state => state.roles,
+			}),
 
 		},
 
@@ -146,11 +217,18 @@
 
 		methods: {
 
+            validEmail(email) {
+                var re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+                return re.test(email);
+            },
+
 			async getData(){
 
-				let resp = await this.$axios.get(`/api/stores/${this.dialog.id}`);
+				let resp = await this.$axios.get(`/api/users/${this.dialog.id}`);
 
-				this.form.store = resp.data.store;
+				this.form.name = resp.data.name;
+				this.form.email = resp.data.email;
+				this.form.role_id = resp.data.role.id;
                 console.log(resp);
 
 			},
@@ -165,7 +243,7 @@
 
 			},
 
-			async saveStore(){
+			async saveUser(){
 
 				if (this.$refs.form.validate()) {
 
@@ -173,11 +251,11 @@
 
 					try {
 						
-						await this.$axios.post('/api/store', {form:this.form});
+						await this.$axios.post('/api/users', {form:this.form});
 
-						this.$store.commit('pagination/changePaginationSection', {section:'stores'});
+						this.$store.commit('pagination/changePaginationSection', {section:'users'});
 
-						let url = '/api/stores?page='+this.getPagination.page;
+						let url = '/api/users?page='+this.getPagination.page;
 
 						this.$store.dispatch('pagination/setItemsPagination', url);
 
@@ -205,13 +283,13 @@
 
 					if (this.$refs.form.validate()) {
 
-						let url = `/api/stores/${this.dialog.id}`;
+						let url = `/api/users/${this.dialog.id}`;
 						
 						this.$axios.put(url,{input,value})
 						.then( resp => {
 							console.log(resp)
 
-							this.$store.commit('stores/updateArray', {id:this.dialog.id,input,value});
+							this.$store.commit('users/updateArray', {id:this.dialog.id,input,value});
 							this.$store.commit('showSnackbar', {color:'success',text:'Actualizado correctamente'});
 
 						})
@@ -229,7 +307,7 @@
 
 			closeDialog(){
 
-				this.$store.commit('stores/showDialog', {add: false});
+				this.$store.commit('users/showDialog', {add: false});
 				this.clearDialog();
 				this.$refs.form.resetValidation();
 

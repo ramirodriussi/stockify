@@ -21,7 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'admin',
+        'role_id',
     ];
 
     /**
@@ -51,6 +51,11 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo('App\Models\Role');
+    }
+
+    public function scopeSearch($query, $word)
+    {
+        $query->where('name', 'like', "%$word%");
     }
 
 }

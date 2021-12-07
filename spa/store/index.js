@@ -56,9 +56,7 @@ export const mutations = {
     },
 
     setLogo: (state, payload) => {
-        
         state.user.logo = payload.avatar;
-
     },
 
 
@@ -66,11 +64,11 @@ export const mutations = {
 
 export const actions = {
 
-    async setUser({commit, state}){
+    async setUser({commit}){
 
-        let resp = await this.$axios.get('/api/user');
+        let resp = await this.$axios.get('/api/user/profile');
 
-        commit('setUser', resp.data.data);
+        commit('setUser', resp.data);
 
     },
 

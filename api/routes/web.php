@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\ImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,10 @@ Route::get('/email', [SaleController::class, 'salesOfTheDay']);
 // Route::get('/demo', function () {
 //     return new App\Mail\DailySalesEmail();
 // });
+
+Route::get('imagen/{imagePath}', [ImageController::class, 'getImage'])->name('getImage');
+
+Route::get('imagen/{subfolder}/{imagePath}', [ImageController::class, 'getImageSubdirectory']);
 
 Route::get('/', function () {
     return view('welcome');

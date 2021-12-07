@@ -72,6 +72,11 @@ export default {
       'laravelSanctum': {
         provider: 'laravel/sanctum',
         url: 'http://localhost:8000',
+        endpoints: {
+          user: {
+            url: '/api/user/profile', method: 'get'
+          }
+        }
       },
     },
     redirect: {
