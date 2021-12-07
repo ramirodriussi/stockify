@@ -12,7 +12,7 @@
             >
             <v-row align="center">
                 <v-col class="grow">
-                Datos del día
+                Estadísticas de {{ calendarDate }}
                 </v-col>
                 <v-col class="shrink">
 
@@ -37,6 +37,7 @@
                         v-model="dates"
                         scrollable
                         range
+                        locale="es-AR"
                         >
                         <v-spacer></v-spacer>
                         <v-btn
@@ -114,6 +115,29 @@
         
         computed: {
 
+            calendarDate() {
+
+                let date;
+                let today = this.$moment(this.dates[0]).isSame(this.$moment(), 'day');
+
+                if(this.dates.length == 1){
+
+                    if(today){
+                        date = 'hoy';
+                    } else {
+                        date = this.formatDate(this.dates[0]);
+                    }
+
+                } else {
+
+                    date = `${this.formatDate(this.dates[0])} a ${this.formatDate(this.dates[1])}`
+
+                }
+
+                return date;
+
+            },
+
             // ...mapState(['skeleton']),
 
         },
@@ -152,14 +176,23 @@
 
         methods: {
 
+            formatDate(date){
+
+                return this.$moment(date).format('LL');
+
+            },
+
             async getData(){
 
-                let resp =  await this.$axios.get(`/api/dashboard?from=${this.from}&to=${this.to}`);
+                this.$store.commit('showSkeleton', true);
 
-                console.log(resp);
+                let resp =  await this.$axios.get(`/api/dashboard?from=${this.from}&to=${this.to}`);
+ 
                 this.sales = resp.data.data.sales;
                 this.earnings = this.formatCurrency(resp.data.data.earnings);
                 this.earningsThisMonth = this.formatCurrency(resp.data.data.earningsThisMonth);
+
+                this.$store.commit('showSkeleton', false);
 
             },
 

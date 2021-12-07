@@ -47,41 +47,53 @@ class SaleController extends Controller
 
         $sales = Sale::whereDate('created_at', \Carbon\Carbon::now())->get();
 
-        // Mail::to(env('APP_EMAIL'))->send(new DailySales($sales));
-
-        // total sales
-
-        $salesArray = [];
-        $totalSale = 0;
+        $arr = [];
 
         foreach ($sales as $key => $sale) {
 
-            $totalSale = $sale->product()->get()->reduce(fn($a, $p) => $a + ($p->pivot->price * $p->pivot->quantity), 0);
-
-            $salesArray[] = [
-                'sale' => $sale->sale_id,
-                'payment_type' => $sale->payment_type,
-                'total' => $totalSale,
+            $arr[] = [
+                'store' => $sale->product()->get()->first()->store->store,
+                'total' => $sale->product()->get()->reduce(fn($a, $p) => $a + ($p->pivot->price * $p->pivot->quantity), 0),
             ];
 
-            $totalSale = 0;
+            // ejemplos para multiplicar precio * cantidad y sumar productos con reduce y sum laravel.
+
+            // $totalSale = $sale->product()->get()->reduce(function($store, $sale){
+            //     return $store[$sale->store->store] += ($sale->pivot->price * $sale->pivot->quantity);
+            // });
+
+            // $totalSale += $sale->product()->get()->sum(function($item){
+            //     return $item->pivot->price * $item->pivot->quantity;
+            // });
 
         }
 
-        // total per day
+        $reducedArr = collect($arr)->reduce(function($accum, $item){
 
-        $total = 0;
+            $store = $item['store'];
+            $total = $item['total'];
 
-        foreach ($salesArray as $item) {
-            $total += $item['total'];
-        }
+            // $accum[$store] = (isset($accum[$store])) ? ['store' => $store, 'total' => $accum[$store]['total'] + $total] : [];
+
+            $accum[$store] = (isset($accum[$store]))
+                ? ['store' => $store, 'total' => $accum[$store]['total'] + $total]
+                : ['store' => $store, 'total' => $total];
+
+            // $accum[$store] = $accum[$store] ?? $total;
+            // $accum[$store] ??= $total;
+
+            return $accum;
+
+        }, []);
 
         $data = [
-            'sales' => $salesArray,
-            'total' => $total,
+            'sales' => $reducedArr,
+            'total' => array_sum(array_column($reducedArr, 'total')),
         ];
 
-        return new DailySales($data);
+        Mail::to(env('APP_EMAIL'))->send(new DailySales($data));
+
+        // return new DailySales($data);
 
     }
 

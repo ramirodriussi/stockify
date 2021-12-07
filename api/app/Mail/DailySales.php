@@ -32,6 +32,7 @@ class DailySales extends Mailable
     {
 
         return $this->markdown('emails.dailySales')
+                    ->subject('Cierre de Caja Diario')
                     ->with(['data' => $this->data]);
 
         // return $this->markdown('emails.dailySales');
