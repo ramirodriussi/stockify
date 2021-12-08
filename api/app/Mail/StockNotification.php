@@ -28,9 +28,10 @@ class StockNotification extends Mailable
      */
     public function build()
     {
-        return $this->from('no-reply@stockify.com.ar')
+        return $this->markdown('emails.stockNotification')
+                    ->from('no-reply@stockify.com.ar')
                     ->subject('Notificación de bajo stock')
-                    ->with(['product' => $this->product])
-                    ->view('emails.stockNotification');
+                    ->with(['product' => $this->product]);
+
     }
 }

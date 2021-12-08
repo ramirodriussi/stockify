@@ -1,5 +1,5 @@
 @component('mail::message')
-El producto {{ $product['product'] }} tiene un stock restante de {{ $product['stock'] }} unidades.
+El producto {{ $product['product'] }} (código: {{ $product['code'] }}) tiene un stock restante de {{ $product['stock'] }} unidades.
 
 @component('mail::button', ['url' => ''])
 Ir al panel

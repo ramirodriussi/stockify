@@ -32,6 +32,7 @@ class DailySales extends Mailable
     {
 
         return $this->markdown('emails.dailySales')
+                    ->from('no-reply@stockify.com.ar')
                     ->subject('Cierre de Caja Diario')
                     ->with(['data' => $this->data]);
 

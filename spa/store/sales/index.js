@@ -1,3 +1,4 @@
+
 export const state = () => ({
 
     dialog: {
@@ -8,6 +9,9 @@ export const state = () => ({
     sales: [],
     cart: [],
     total: 0,
+    products: [],
+    word: '',
+
 });
 
 export const mutations = {
@@ -15,6 +19,16 @@ export const mutations = {
     setSales: (state, payload) => {
         // console.log(state.sales);
         state.sales = payload;
+    },
+
+    setProducts: (state, payload) => {
+        // console.log(state.sales);
+        state.products = payload;
+    },
+
+    setWord: (state, payload) => {
+        // console.log(state.sales);
+        state.word = payload;
     },
 
     showDialog: (state, payload) => {
@@ -59,14 +73,30 @@ export const mutations = {
 
     setItemCart: (state, payload) => {
 
-        let itemExists = state.cart.find(item => item.id === payload.id);
+        if(payload.byCode){
 
-        console.log(itemExists);
+            let itemExists = state.cart.find(item => item.id === payload.item.id);
+   
+            if(itemExists){
+                itemExists.quantity += payload.item.quantity;
+            } else {
+                state.cart.push(payload.item);
+            }
 
-        if(itemExists){
-            itemExists.quantity += payload.quantity;
         } else {
-            state.cart.push(payload);
+
+            let product = state.products.find(item => item.id === payload.id);
+
+            let newItem = {};
+            
+            Object.assign(newItem, product);
+
+            newItem.quantity = 1;
+
+            state.cart.push(newItem);
+            state.products = [];
+            state.word = '';
+
         }
 
     },
@@ -87,6 +117,14 @@ export const mutations = {
         state.cart = [];
     },
 
+    clearProducts: (state) => {
+        state.products = [];
+    },
+
+    clearWord: (state) => {
+        state.word = '';
+    }
+
 };
 
 export const actions = {
@@ -101,7 +139,19 @@ export const actions = {
 
     },
 
-    async setItemCart({commit}, payload){
+    async getItems({commit, state}){
+
+        let url = `/api/products`;
+
+        let resp = await this.$axios.get(url, {params: {all:true, word: state.word}});
+
+        console.log(resp);
+
+        commit('setProducts', resp.data.data); 
+
+    },
+
+    async getItemByCode({commit}, payload){
 
         try {
             
@@ -115,8 +165,8 @@ export const actions = {
             item.code = resp.data.code;
             item.stock = resp.data.stock;
             item.quantity = 1;
-    
-            commit('setItemCart', item);
+   
+            commit('setItemCart', {item, byCode:true});
     
             commit('showSnackbar', {color:'success',text:'Producto agregado al carrito'}, {root:true});
 
@@ -128,21 +178,13 @@ export const actions = {
 
     },
 
-    // elimijnar roostate y doispatch
-
-    updateItemSaleQuantity({commit, rootState, dispatch}, payload){
+    updateItemSaleQuantity({commit}, payload){
 
         this.$axios.put(`/api/sales/${payload.saleId}`, {input:'quantity', value:payload.quantity, id:payload.id, operator:payload.operator, diff: payload.diff})
         .then(() => {
 
             commit('updateItemCart', {quantity:payload.quantity,id:payload.id});
             commit('updateArray', {id:payload.saleId, productId: payload.id, input:'quantity', value:payload.quantity, diff:payload.diff, operator: payload.operator});
-
-            // commit('updateArray', {id:payload.saleId,productId:payload.id,input:'stock',value:payload.diff,operator:payload.operator});
-
-            // let page = rootState.pagination.pagination.page;
-            // let url = `/api/sales?page=${page}`;
-            // dispatch('pagination/setItemsPagination', url, {root:true});
 
             commit('showSnackbar', {color:'success',text:'Cantidad actualizada correctamente'}, {root:true});
 
@@ -187,6 +229,8 @@ export const getters = {
     },
 
     cartItems: (state) => {
+
+        console.log('getter cartitems', state.cart);
 
         return state.cart.map(item => {
 

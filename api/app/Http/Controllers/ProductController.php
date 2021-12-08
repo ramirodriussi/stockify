@@ -23,22 +23,38 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        
-        $store = ($request->store && $request->store != 'all') ? $request->store : null;
 
 		$manager = new Manager();
 
 		$manager->setSerializer(new ArraySerializer());
 
-        $products = Product::search($request->word)->store($store)->orderBy('id', 'desc')->paginate(10);
+        // busco todos, sin paginacion
 
-		$app = $products->getCollection();
+        if($request->all){
 
-        $fields = ['id','product','code','stock','stock_notification_below','price','store'];
+            $products = Product::search($request->word)->orderBy('id', 'desc')->paginate(10);
 
-		$resource = new Collection($app, new ProductTransformer($fields));	
+            $fields = ['id','product','code','stock','price','store'];
 
-		$resource->setPaginator(new IlluminatePaginatorAdapter($products));
+            $resource = new Collection($products, new ProductTransformer($fields));	
+
+        } else {
+
+            // con paginacion
+
+            $store = ($request->store && $request->store != 'all') ? $request->store : null;
+
+            $products = Product::search($request->word)->store($store)->orderBy('id', 'desc')->paginate(10);
+
+            $app = $products->getCollection();
+    
+            $fields = ['id','product','code','stock','stock_notification_below','price','store'];
+    
+            $resource = new Collection($app, new ProductTransformer($fields));	
+    
+            $resource->setPaginator(new IlluminatePaginatorAdapter($products));
+
+        }
 
 		return $manager->createData($resource)->toArray();
 

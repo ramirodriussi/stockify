@@ -49,7 +49,19 @@
 
 								<v-row>
 
-									<v-col v-if="dialog.add" cols="12" md="6">
+									<v-col v-if="dialog.add" cols="12" md="4">
+
+										<v-text-field
+											label="Producto"
+											outlined
+											dense
+											:value="word"
+											@change="getItemByName($event)"
+										></v-text-field>
+
+									</v-col>
+
+									<v-col v-if="dialog.add" cols="12" md="4">
 
 										<v-text-field
 											label="Código de producto"
@@ -61,7 +73,7 @@
 
 									</v-col>
 
-									<v-col cols="12" md="6">
+									<v-col cols="12" md="4">
 
 										<v-select
 										:items="payments"
@@ -74,6 +86,52 @@
 										:rules="[rules.required]"
 										@change="updatePaymentType"
 										></v-select>
+
+									</v-col>
+
+									<v-col cols="12" v-if="products.length">
+
+										<h4>Elegí el producto que querés agregar al carrito</h4>
+
+										<v-simple-table>
+											<template v-slot:default>
+											<thead>
+												<tr>
+												<th class="text-left">
+													Producto
+												</th>
+												<th class="text-left">
+													Código
+												</th>
+												<th class="text-left">
+													Stock
+												</th>
+												<th class="text-left">
+													Local
+												</th>
+												<th class="text-left">
+													Agregar
+												</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr
+												v-for="(item, i) in products"
+												:key="i"
+												>
+												<td>{{ item.product }}</td>
+												<td>{{ item.code }}</td>
+												<td>{{ item.stock }}</td>
+												<td>{{ item.store.store }}</td>
+												<td>
+													<v-btn class="mr-1" depressed fab x-small text color="success" @click="setItemCart(item.id)">
+														<v-icon dark small>mdi-check</v-icon>
+													</v-btn>
+												</td>
+												</tr>
+											</tbody>
+											</template>
+										</v-simple-table>
 
 									</v-col>
 
@@ -244,9 +302,8 @@
 					width: 640,
 					height: 480
 				},
-				detecteds: []
-
-				
+				detecteds: [],
+			
 			}
 
 		},
@@ -282,6 +339,8 @@
 			...mapState('sales', {
 				cart: state => state.cart,
 				total: state => state.total,
+				products: state => state.products,
+				word: state => state.word,
 			}),
 
 		},
@@ -309,7 +368,20 @@
 
 			async getItemByCode(){
 
-				this.$store.dispatch('sales/setItemCart', {code:this.code});
+				this.$store.dispatch('sales/getItemByCode', {code:this.code});
+
+			},
+
+			async getItemByName(word){
+
+				this.$store.commit('sales/setWord', word);
+				this.$store.dispatch('sales/getItems');
+
+			},
+
+			setItemCart(id){
+
+				this.$store.commit('sales/setItemCart', {id, byCode: false});
 
 			},
 
@@ -376,6 +448,8 @@
 				this.$store.commit('sales/showDialog', {add: false});
 				this.clearDialog();
 				this.$store.commit('sales/clearCart');
+				this.$store.commit('sales/clearProducts');
+				this.$store.commit('sales/clearWord');
 				this.$refs.form.resetValidation();
 
 			},
@@ -577,6 +651,11 @@
 
 	.reader-box {
 		height: 480px;
+	}
+
+	h4 {
+		color: grey;
+		font-weight: 400;
 	}
 
 </style>
