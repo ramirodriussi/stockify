@@ -28,7 +28,7 @@ class FortifyServiceProvider extends ServiceProvider
             public function toResponse($request)
             {
                 return $request->wantsJson()
-                ? response()->json(['two_factor' => false, 'user' => $request->user(), 'message' => 'Logueado correctamente'])
+                ? response()->json(['two_factor' => false, 'user' => $request->user(), 'role' => $request->user()->role->role, 'message' => 'Logueado correctamente'])
                 : redirect()->intended(Fortify::redirects('login'));
             }
         });

@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             StoreSeeder::class,
             UserSeeder::class,
+            ProgressJobSeeder::class,
         ]);
     }
 }

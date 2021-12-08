@@ -15,7 +15,9 @@ use App\Http\Controllers\ImageController;
 |
 */
 
-Route::get('/email', [SaleController::class, 'salesOfTheDay']);
+// test email template
+
+// Route::get('/email', [SaleController::class, 'salesOfTheDay']);
 
 // Route::get('/demo', function () {
 //     return new App\Mail\DailySalesEmail();

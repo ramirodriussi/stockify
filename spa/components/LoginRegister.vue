@@ -97,10 +97,11 @@
                             }
                         });
 
-                        console.log(resp);
-
                         this.$store.commit('showSnackbar', {color:'success', text: resp.data.message});
-                        localStorage.setItem('admin', true);
+
+                        localStorage.setItem('admin', (resp.data.role == 'Administrador') ? true : false);
+                        
+                        this.$store.dispatch('setUser');
                         this.$router.push('panel');
 
                     } catch (error) {
