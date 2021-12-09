@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import VueHtmlToPaper from 'vue-html-to-paper';
 
+let basePath= 'http://localhost:8000';
+
 const options = {
     name: '_blank',
     specs: [
@@ -11,6 +13,7 @@ const options = {
     styles: [
     'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
     'https://unpkg.com/kidlat-css/css/kidlat.css',
+    `${basePath}/print.css`,
     ],
     timeout: 1000, // default timeout before the print window appears
     autoClose: true, // if false, the window will not close after printing

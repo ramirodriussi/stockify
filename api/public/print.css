@@ -1,0 +1,19 @@
+
+@media print {
+    @page {
+        margin: 0;
+        size: landscape;
+    }
+    svg {
+        width: 100%;
+    }
+}
+@media screen {
+    body {
+       margin: 0;
+       size: landscape;
+    }
+    svg {
+        width: 100%;
+    }
+}

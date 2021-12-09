@@ -52,7 +52,7 @@ Cierre de Caja Diario | @php echo date('d-m-Y'); @endphp
 
 </table>
 
-@component('mail::button', ['url' => ''])
+@component('mail::button', ['url' => env('SPA_URL')])
 Ir al panel
 @endcomponent
 

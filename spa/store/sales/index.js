@@ -11,24 +11,26 @@ export const state = () => ({
     total: 0,
     products: [],
     word: '',
+    code: '',
 
 });
 
 export const mutations = {
 
     setSales: (state, payload) => {
-        // console.log(state.sales);
         state.sales = payload;
     },
 
     setProducts: (state, payload) => {
-        // console.log(state.sales);
         state.products = payload;
     },
 
     setWord: (state, payload) => {
-        // console.log(state.sales);
         state.word = payload;
+    },
+
+    setCode: (state, payload) => {
+        state.code = payload;
     },
 
     showDialog: (state, payload) => {
@@ -109,21 +111,9 @@ export const mutations = {
         state.cart.find(item => item.id === payload.id).quantity = payload.quantity;
     },
 
-    fillCart: (state, payload) => {
+    setCart: (state, payload) => {
         state.cart = payload;
     },
-
-    clearCart: (state) => {
-        state.cart = [];
-    },
-
-    clearProducts: (state) => {
-        state.products = [];
-    },
-
-    clearWord: (state) => {
-        state.word = '';
-    }
 
 };
 
@@ -151,11 +141,11 @@ export const actions = {
 
     },
 
-    async getItemByCode({commit}, payload){
+    async getItemByCode({commit, state}){
 
         try {
             
-            const resp = await this.$axios.get(`/api/products/code/${payload.code}`);
+            const resp = await this.$axios.get(`/api/products/code/${state.code}`);
 
             let item = {};
 
@@ -167,6 +157,7 @@ export const actions = {
             item.quantity = 1;
    
             commit('setItemCart', {item, byCode:true});
+            commit('setCode', '');
     
             commit('showSnackbar', {color:'success',text:'Producto agregado al carrito'}, {root:true});
 
@@ -229,8 +220,6 @@ export const getters = {
     },
 
     cartItems: (state) => {
-
-        console.log('getter cartitems', state.cart);
 
         return state.cart.map(item => {
 

@@ -28,21 +28,31 @@
 
 								<v-row v-if="dialog.add">
 
+									<v-col cols="12" md="9">
+										<h4>Colocá el cursor sobre "código de producto" y utilizá un lector de barras o iniciá el lector con la cámara web.</h4>
+									</v-col>
+
+									<v-col cols="12" md="3">
+
+										<v-btn small rounded color="grey lighten-4" v-if="!camera" @click="camera = !camera">
+											Iniciar cámara web
+										</v-btn>
+										<v-btn small rounded color="grey lighten-4" v-else @click="camera = !camera">
+											Detener cámara web
+										</v-btn>
+
+									</v-col>
+
+									<v-col cols="12">
+										<hr>
+									</v-col>
+
 									<v-col cols="12" v-if="camera">
 
 										<div class="reader-box">
 											<v-quagga :onDetected="logIt" :readerSize="readerSize" :readerTypes="['ean_reader']"></v-quagga>
 										</div>
 
-									</v-col>
-
-									<v-col>
-										<v-btn color="primary" v-if="!camera" @click="camera = !camera">
-											Iniciar scanner
-										</v-btn>
-										<v-btn color="primary" v-else @click="camera = !camera">
-											Detener scanner
-										</v-btn>
 									</v-col>
 
 								</v-row>
@@ -66,9 +76,9 @@
 										<v-text-field
 											label="Código de producto"
 											outlined
-											v-model="code"
+											:value="code"
 											dense
-											@change="getItemByCode"
+											@change="getItemByCode($event)"
 										></v-text-field>
 
 									</v-col>
@@ -281,7 +291,6 @@
 			return {
 
 				loading: false,
-				code: '',
 				paymentType: '',
 				saleId: '',
 				payments: [
@@ -341,6 +350,7 @@
 				total: state => state.total,
 				products: state => state.products,
 				word: state => state.word,
+				code: state => state.code,
 			}),
 
 		},
@@ -361,14 +371,15 @@
 
 			logIt (data) {
 				console.log('detected', data.codeResult.code)
-				this.code = data.codeResult.code;
+				this.$store.commit('sales/setCode', data.codeResult.code);
 				this.camera = false;
 				this.getItemByCode();
 			},
 
-			async getItemByCode(){
+			async getItemByCode(code){
 
-				this.$store.dispatch('sales/getItemByCode', {code:this.code});
+				this.$store.commit('sales/setCode', code);
+				this.$store.dispatch('sales/getItemByCode');
 
 			},
 
@@ -394,7 +405,7 @@
 				this.paymentType = resp.data.payment_type;
 				this.saleId = resp.data.sale_id;
 
-				this.$store.commit('sales/fillCart', resp.data.products.data);
+				this.$store.commit('sales/setCart', resp.data.products.data);
 
 				this.loading = !this.loading;
 
@@ -402,7 +413,7 @@
 
 			clearDialog(){
 
-				this.code = '';
+				this.$store.commit('sales/setCode', '');
 				this.paymentType = '';
 				this.saleId = '';
 				// this.loading = false;
@@ -447,9 +458,9 @@
 
 				this.$store.commit('sales/showDialog', {add: false});
 				this.clearDialog();
-				this.$store.commit('sales/clearCart');
-				this.$store.commit('sales/clearProducts');
-				this.$store.commit('sales/clearWord');
+				this.$store.commit('sales/setCart', []);
+				this.$store.commit('sales/setProducts', []);
+				this.$store.commit('sales/setWord', '');
 				this.$refs.form.resetValidation();
 
 			},

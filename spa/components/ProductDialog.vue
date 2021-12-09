@@ -21,7 +21,7 @@
 				>
 					<v-icon>mdi-close</v-icon>
 				</v-btn>
-				<v-toolbar-title>Settings</v-toolbar-title>
+				<v-toolbar-title v-text="dialog.add ? 'Agregar producto' : 'Editar producto'"></v-toolbar-title>
 				<v-spacer></v-spacer>
 				<v-toolbar-items>
 					<v-btn
@@ -143,15 +143,15 @@
 
 						</v-col>
 
-						<v-col cols="12" md="6">
+						<v-col cols="12" md="6" class="text-center">
 
 							<div id="code">
 								<barcode :value="form.code" tag="img">
-								Show this if the rendering fails.
+								Código de barras
 								</barcode>
 							</div>
 						
-							<v-btn @click="print">
+							<v-btn color="warning" small rounded @click="print">
 								Imprimir
 							</v-btn>
 
@@ -339,7 +339,7 @@
 
 			async print(){
 
-				await this.$htmlToPaper('code', {styles:['~/assets/style.css']});
+				await this.$htmlToPaper('code');
 
 			}
 
