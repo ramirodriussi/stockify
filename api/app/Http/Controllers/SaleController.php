@@ -18,6 +18,16 @@ use Illuminate\Support\Facades\Mail;
 
 class SaleController extends Controller
 {
+
+    public function __construct()
+    {
+
+        $this->middleware('role:Administrador')->only([
+            'destroy',
+        ]);
+
+    }
+
     /**
      * Display a listing of the resource.
      *

@@ -13,6 +13,12 @@ use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 
 class StoreController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('role:Administrador');
+    }
+
     /**
      * Display a listing of the resource.
      *

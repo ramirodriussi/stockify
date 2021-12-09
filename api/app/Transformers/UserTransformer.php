@@ -26,6 +26,7 @@ class UserTransformer extends TransformerAbstract
             'name' => $user->name,
             'email' => $user->email,
             'role' => $user->role,
+            'access' => $user->access,
             'logo' => (isset($user->logo->image)) ? env('APP_URL') . $user->logo->image : null,
         ]);
 

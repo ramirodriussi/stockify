@@ -66,6 +66,18 @@
                     no-data-text="¡Aún no hay usuarios agregados!"
                     >
 
+                        <template v-slot:item.access="{ item }">
+
+                            <v-chip 
+                            small 
+                            :color="item.access ? 'green' : 'error'"
+                            text-color="white"
+                            v-text="item.access ? 'Habilitado' : 'No habilitado'"
+                            >
+                            </v-chip>
+
+                        </template>
+
                         <template v-slot:item.actions="{ item }">						
 
                             <v-btn class="mr-1" depressed fab x-small text color="primary" @click="editDialog(item.id)">
@@ -122,6 +134,7 @@
 					},
 					{ text: 'Email', value: 'email', sortable: false, align:'left' },
 					{ text: 'Rol', value: 'role.role', sortable: false, align:'left' },
+					{ text: 'Acceso', value: 'access', sortable: false, align:'left' },
 					{ text: 'Acciones', value: 'actions', sortable: false, align:'right' },
 				],
 

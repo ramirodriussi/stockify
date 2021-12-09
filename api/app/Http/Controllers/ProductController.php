@@ -16,6 +16,19 @@ use App\Imports\ImportProducts;
 
 class ProductController extends Controller
 {
+
+
+    public function __construct()
+    {
+
+        $this->middleware('role:Administrador')->except([
+            'index',
+            'show',
+            'searchByCode'
+        ]);
+
+    }
+
     /**
      * Display a listing of the resource.
      *

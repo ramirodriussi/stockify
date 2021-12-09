@@ -7,6 +7,12 @@ use App\Models\Sale;
 
 class DashboardController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('role:Administrador');
+    }
+
     /**
      * Display a listing of the resource.
      *

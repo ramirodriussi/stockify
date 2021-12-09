@@ -169,46 +169,4 @@ class ProfileController extends Controller
 		
 	}
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy()
-    {
-
-        $userId = $request->user()->id;
-
-        $images = Image::select('image')->where('user_id', $userId)->get();
-
-        auth()->logout();
-
-        if($images){
-
-            foreach ($images as $key => $image) {         
-
-                $arr = explode('/',$image->image);
-                $path = '/' . $arr[2] . '/' . $arr[3];
-
-                \Storage::disk('images')->delete($path);    
-
-            }
-
-        }
-
-        // $date = \Carbon\Carbon::today();
-
-        // Reservation::where('user_id', $userId)->where('status_id', 1)->orWhere('status_id', 2)->update(
-        //     ['status_id' => 3]
-        // );
-  
-        if(!User::find($userId)->delete()){
-            return response()->json(['message'=>'No se pudo eliminar la cuenta. Intentá nuevamente'], 400);
-        }
-           
-        return response()->json(['message'=>'Cuenta eliminada correctamente'], 200);
-
-    }
-
 }

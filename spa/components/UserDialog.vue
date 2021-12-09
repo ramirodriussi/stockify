@@ -62,7 +62,7 @@
 											outlined
 											v-model="form.password"
 											dense
-											:rules="[rules.requiredPassword(dialog.add), rules.password]"
+											:rules="[rules.requiredPassword(dialog.add), rules.password(dialog.add)]"
 											@change="updateInput('password', form.password)"
 										></v-text-field>
 
@@ -80,6 +80,21 @@
 											v-model="form.role_id"
 											:rules="[rules.required]"
 											@change="updateInput('role_id', form.role_id)"
+											></v-select>
+
+									</v-col>
+
+									<v-col cols="12">
+
+											<v-select
+											:items="access"
+											item-text="access"
+											item-value="value"
+											label="Acceso al panel"
+											outlined
+											dense
+											v-model="form.access"
+											@change="updateInput('access', form.access)"
 											></v-select>
 
 									</v-col>
@@ -144,6 +159,7 @@
                     email: '',
                     password: '',
                     role_id: '',
+					access: 0,
                 },
 				rules: {
 					required: value => !!value || 'Debés completar este campo',
@@ -169,7 +185,11 @@
 
 					}
 
-				}
+				},
+				access: [
+					{access: 'Habilitado', value: 1},
+					{access: 'Deshabilitado', value: 0},
+				]
 				
 			}
 
@@ -229,6 +249,7 @@
 				this.form.name = resp.data.name;
 				this.form.email = resp.data.email;
 				this.form.role_id = resp.data.role.id;
+				this.form.access = resp.data.access;
                 console.log(resp);
 
 			},

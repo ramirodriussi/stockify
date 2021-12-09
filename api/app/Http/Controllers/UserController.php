@@ -14,6 +14,11 @@ use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 class UserController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('role:Administrador');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -70,6 +75,7 @@ class UserController extends Controller
             'form.email' => 'required|email',
             'form.role_id' => 'required',
             'form.password' => 'required|min:8',
+            'form.access' => 'required'
         ])->validate();
 
         User::create([
@@ -77,6 +83,7 @@ class UserController extends Controller
             'email' => $request->form['email'],
             'password' => \Hash::make($request->form['password']),
             'role_id' => $request->form['role_id'],
+            'access' => $request->form['access']
         ]);
 
         return response()->json(['message' => 'Agregado correctamente'], 200);
