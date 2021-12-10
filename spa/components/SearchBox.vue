@@ -11,6 +11,7 @@
 		outlined
 		prepend-inner-icon="mdi-magnify"
 		label="Buscar por local"
+		hide-details
 		>
 
 			<template v-slot:prepend-item>

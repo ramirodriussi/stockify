@@ -23,10 +23,11 @@
 
                     <v-file-input
                         label="Archivo"
-                        filled
                         prepend-icon="mdi-camera"
                         :rules="[rules.required]"
                         v-model="file"
+						outlined
+						dense
                     ></v-file-input>
 
                 </v-form>
@@ -75,6 +76,7 @@
 				rules: {
 					required : value => !!value || 'Debés seleccionar un archivo',
 				},
+				uploaded: false,
 			
 			}
 
@@ -96,15 +98,9 @@
 
 		},
 
-		// watch: {
+		// mounted(){
 
-		// 	'dialog.id'() {
-
-		// 		if(this.dialog.id){
-		// 			// this.getData();
-		// 		}
-
-		// 	}
+		// 	this.checkIfUploaded();
 
 		// },
 
@@ -134,26 +130,60 @@
                     }})
                     .then(()=>{
 
-                        this.$store.commit('showSnackbar', {color:'success',text:'Subido correctamente'});
-                        this.$store.commit('setDialog');
+                        // this.$store.commit('showSnackbar', {color:'success',text:'Subido correctamente'});
+                        // this.$store.commit('setDialog');
+						this.checkIfUploaded();
 
                     })
-                    .catch((e)=>{
+                    .catch(()=>{
 
-                        console.log(e);
+                        // console.log(e);
                         this.$store.commit('showSnackbar', {color:'error',text:'No se pudo subir el archivo. Intentá nuevamente'});
-
-                    })
-                    .finally(()=>{
-
-                        this.file = null;
-                        this.loading = !this.loading;
 
                     })
 
                 }
 
             },
+
+			checkIfUploaded(){
+
+				this.$axios.get('/api/products/import/check')
+				.then((resp)=>{
+
+					this.uploaded = resp.data.uploaded;
+					console.log(resp);
+
+					if(!this.uploaded){
+
+						setTimeout(()=>{
+
+							this.checkIfUploaded();
+							console.log('checking again');
+
+						}, 10000);
+
+					} else {
+
+                        this.file = null;
+                        this.loading = !this.loading;
+                        this.$store.commit('showSnackbar', {color:'success',text:'Subido correctamente'});
+                        this.$store.commit('setDialog');
+
+						this.$store.commit('pagination/changePaginationSection', {section:'products'});
+						let url = `/api/products?page=1`;
+						this.$store.dispatch('pagination/setItemsPagination', url);
+
+					}
+
+				})
+				.catch(()=>{
+
+                    this.$store.commit('showSnackbar', {color:'error',text:'No se pudo subir el archivo. Intentá nuevamente'});
+
+				})
+
+			}
 
 
 		}

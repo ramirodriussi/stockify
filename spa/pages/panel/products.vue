@@ -54,23 +54,25 @@
 
                 <v-card class="elevation-4 pa-3">
             
-                    <v-row>
-
+                    <v-row class="d-flex justify-space-between flex-column flex-sm-row">
+                        
                         <v-col cols="12" sm="4">
+
                             <SearchBox section="products" />
-                        </v-col>
-
-                        <v-col cols="12" sm="4">
-                            
-                            <v-btn href="http://localhost:8000/api/products/export" tag="a" download rounded small color="default">
-                                <v-icon color="grey">mdi-download</v-icon> Exportar
-                            </v-btn>
-
-                            <v-btn rounded small color="default" @click="showImportDialog">
-                                <v-icon color="grey">mdi-upload</v-icon> Importar
-                            </v-btn>
 
                         </v-col>
+
+                        <div class="ma-4">
+
+                            <v-btn outlined class="mr-1" :href="`${url}/api/products/export`" tag="a" download rounded small color="warning">
+                                <v-icon small>mdi-download</v-icon> Exportar
+                            </v-btn>
+
+                            <v-btn outlined rounded small color="warning" @click="showImportDialog">
+                                <v-icon small>mdi-upload</v-icon> Importar
+                            </v-btn>
+
+                        </div>
 
                     </v-row>
 
@@ -103,10 +105,6 @@
                         </template>
 
                         <template v-slot:item.actions="{ item }">						
-
-                            <v-btn class="mr-1" depressed fab x-small text color="warning" @click="toPrintPage(item.code)">
-                                <v-icon dark small>mdi-printer</v-icon>
-                            </v-btn>
 
                             <v-btn class="mr-1" depressed fab x-small text color="primary" @click="editDialog(item.id)">
                                 <v-icon dark small>mdi-pencil</v-icon>
@@ -171,6 +169,7 @@
 					{ text: 'Acciones', value: 'actions', sortable: false, align:'center' },
 				],
                 selectedFile: '',
+                url: 'http://localhost:8000',
 
 			}
 		},
@@ -187,7 +186,7 @@
                 products: state => state.products
             }),
 
-            ...mapGetters('pagination', ['getPagination'])
+            ...mapGetters('pagination', ['getPagination']),
 
 
         },
@@ -216,14 +215,6 @@
 
                 editDialog(id){
                     this.$store.commit('products/showDialog', {add: false,id});
-                },
-
-                toPrintPage(code){
-
-                    console.log(code);
-
-                    window.open(`products/print/${code}`, '_blank');
-
                 },
 
                 showImportDialog(){

@@ -112,9 +112,9 @@ class ImportProducts implements ToModel,
     {
 
        
-        // $progress = Progress_job::find(1);
-        // $progress->progress = 1;
-        // $progress->save();
+        $progress = Progress_job::find(1);
+        $progress->progress = 1;
+        $progress->save();
 
         // \Log::channel('single')->info('bbb');
 

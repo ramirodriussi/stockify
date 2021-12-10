@@ -14,7 +14,7 @@ class AddCodeColumnToProductsTable extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->string('code')->after('product');
+            $table->string('code')->unique()->after('product');
         });
     }
 

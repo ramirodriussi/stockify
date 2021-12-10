@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Progress_job;
 use App\Transformers\ProductTransformer;
 use League\Fractal\Manager;
 use League\Fractal\Serializer\ArraySerializer;
@@ -173,33 +174,26 @@ class ProductController extends Controller
     public function import(Request $request)
     {
 
-        // $ext = $request->file('excel')->getClientOriginalExtension();
-
-        // $name = 'products.' . $ext;
-
-        // $path = $request->file('excel')->storeAs('files',$name);
-
-        // \DB::table('files')->delete();
-
-        // $file = new File();
-
-        // $file->file = $name;
-        // $file->path = $path;
-
-        // $file->save();
-
-        // Import
-
-        // dd($request->all());
-
         $import = new ImportProducts;
         $import->import($request->file('file'));
 
         return response()->json(['message' => 'Subiendo archivo']);
 
-        // Excel::queueImport(new ProductsImport, request()->file('excel'));
+    }
 
-        // return back()->withStatus('uploading');
+    public function checkIfUploaded()
+    {
+
+        $progress = Progress_job::find(1);
+
+        if(!$progress->progress){
+            return response()->json(['uploaded' => false], 200);
+        }
+
+        $progress->progress = 0;
+        $progress->save();
+
+        return response()->json(['uploaded' => true], 200);
 
     }
 
