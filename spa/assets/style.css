@@ -3,3 +3,13 @@
     color: white;
 }
 
+:root {
+    --primary: #26A69A;
+    --secondary: #80CBC4;
+    --custom-grey: #4e4e4e;
+}
+
+h2 {
+    color: var(--custom-grey);
+}
+

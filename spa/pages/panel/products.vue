@@ -37,10 +37,11 @@
                                 small 
                                 class="mt-4 mt-md-0 pa-3" 
                                 rounded
-                                color="blue darken-3"
+                                color="var(--primary)"
                                 dark
                                 @click="addDialog"
                                 >
+                                <v-icon small>mdi-plus</v-icon>
                                 Agregar producto
                                 </v-btn>
 
@@ -64,11 +65,11 @@
 
                         <div class="ma-4">
 
-                            <v-btn outlined class="mr-1" :href="`${url}/api/products/export`" tag="a" download rounded small color="warning">
+                            <v-btn outlined class="mr-1" :href="`${url}/api/products/export`" tag="a" download rounded small color="var(--primary)">
                                 <v-icon small>mdi-download</v-icon> Exportar
                             </v-btn>
 
-                            <v-btn outlined rounded small color="warning" @click="showImportDialog">
+                            <v-btn outlined rounded small color="var(--primary)" @click="showImportDialog">
                                 <v-icon small>mdi-upload</v-icon> Importar
                             </v-btn>
 
@@ -88,7 +89,7 @@
 
                             <v-chip 
                             small 
-                            color="blue lighten-2"
+                            color="teal lighten-3"
                             text-color="white"
                             >
                                 {{ item.store.store }}
@@ -106,7 +107,7 @@
 
                         <template v-slot:item.actions="{ item }">						
 
-                            <v-btn class="mr-1" depressed fab x-small text color="primary" @click="editDialog(item.id)">
+                            <v-btn class="mr-1" depressed fab x-small text color="var(--primary)" @click="editDialog(item.id)">
                                 <v-icon dark small>mdi-pencil</v-icon>
                             </v-btn>
 

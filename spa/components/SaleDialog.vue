@@ -9,7 +9,7 @@
 			<v-card>
 				
 			<v-card-title
-				class="headline headline-white blue darken-3"
+				class="headline headline-white teal lighten-1"
 				primary-title
 				v-text="dialog.add ? 'Nueva venta' : `Detalle de venta - ${saleId}`"
 			>
@@ -34,10 +34,10 @@
 
 									<v-col cols="12" md="3">
 
-										<v-btn small rounded color="grey lighten-4" v-if="!camera" @click="camera = !camera">
+										<v-btn small outlined rounded color="var(--primary)" v-if="!camera" @click="camera = !camera">
 											Iniciar cámara web
 										</v-btn>
-										<v-btn small rounded color="grey lighten-4" v-else @click="camera = !camera">
+										<v-btn small outlined rounded color="var(--primary)" v-else @click="camera = !camera">
 											Detener cámara web
 										</v-btn>
 
@@ -67,6 +67,7 @@
 											dense
 											:value="word"
 											@change="getItemByName($event)"
+											color="var(--primary)"
 										></v-text-field>
 
 									</v-col>
@@ -79,6 +80,7 @@
 											:value="code"
 											dense
 											@change="getItemByCode($event)"
+											color="var(--primary)"
 										></v-text-field>
 
 									</v-col>
@@ -95,6 +97,7 @@
 										v-model="paymentType"
 										:rules="[rules.required]"
 										@change="updatePaymentType"
+										color="var(--primary)"
 										></v-select>
 
 									</v-col>
@@ -252,7 +255,7 @@
 			<v-card-actions>
 				<v-spacer></v-spacer>
 				<v-btn
-				color="blue darken-3"
+				color="var(--primary)"
 				rounded
 				outlined
 				dark	
@@ -261,7 +264,7 @@
 				Cerrar
 				</v-btn>
 				<v-btn
-				color="green darken-1"
+				color="var(--primary)"
 				rounded
 				:dark="!loading"
 				@click="saveSale"

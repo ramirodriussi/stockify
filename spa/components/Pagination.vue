@@ -6,7 +6,7 @@
       class="mt-4"
       @input="onPageChange"
       circle
-      color="blue darken-3"      
+      color="var(--primary)"      
     ></v-pagination>
   </div>
 </template>

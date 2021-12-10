@@ -2,7 +2,10 @@
 
         <v-card class="rounded-lg">
             <v-card-title>
-                <h3>Ingesar al panel</h3>
+                <h4>
+                    <v-icon>mdi-login</v-icon>
+                    Ingresar al panel
+                </h4>
             </v-card-title>
             <v-card-text>
                 <v-form @submit.prevent v-model="valid" ref="form">
@@ -16,6 +19,8 @@
                                 outlined
                                 type="email"
                                 @keyup.enter="sendForm(userInfo)"
+                                color="var(--primary)"
+                                dense
                             ></v-text-field>
                         </v-col>
                         <v-col class="pb-0" cols="12">
@@ -27,10 +32,12 @@
                                 outlined
                                 type="password"
                                 @keyup.enter="sendForm(userInfo)"
+                                color="var(--primary)"
+                                dense
                             ></v-text-field>
                         </v-col>
                         <v-col cols="12" class="text-center">
-                            <v-btn color="primary" :dark="!loading" block @click="sendForm(userInfo)" :loading="loading" :disabled="loading">Ingresar</v-btn>
+                            <v-btn color="teal lighten-1" :dark="!loading" block @click="sendForm(userInfo)" :loading="loading" :disabled="loading">Ingresar</v-btn>
                             <p class="mt-5 mb-0">¿Olvidaste tu contraseña? <NuxtLink to="forgot">Hacé click acá</NuxtLink></p>
                         </v-col>
                     </v-row>
@@ -68,7 +75,8 @@
 
                 },
                 success: '',
-                error: ''
+                error: '',
+                isAdmin: false,
 
 
             }
@@ -99,7 +107,12 @@
 
                         this.$store.commit('showSnackbar', {color:'success', text: resp.data.message});
 
-                        localStorage.setItem('admin', (resp.data.role == 'Administrador') ? true : false);
+                        this.isAdmin = (resp.data.role == 'Administrador') ? true : false;
+
+                        localStorage.setItem('admin', this.isAdmin);
+                        this.$store.commit('setAdmin', this.isAdmin);
+
+                        console.log('a');
                         
                         this.$store.dispatch('setUser');
                         this.$router.push('panel');
@@ -122,3 +135,12 @@
 
     }
 </script>
+
+<style scoped>
+
+    h4 {
+        color: var(--custom-grey);
+        font-weight: 400;
+    }
+
+</style>

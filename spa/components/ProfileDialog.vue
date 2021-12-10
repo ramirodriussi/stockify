@@ -4,7 +4,7 @@
 
       <v-dialog v-model="dialog" max-width="400">
         <v-card>
-          <v-card-title class="headline-white headline blue darken-3">Mi Perfil</v-card-title>
+          <v-card-title class="headline-white headline teal lighten-1">Mi Perfil</v-card-title>
 
               <v-form v-model="validForm" ref="form" lazy-validation>
 
@@ -22,6 +22,8 @@
                   outlined
                   :loading="loading"
                   :disabled="loading"
+                  color="var(--primary)"
+                  dense
                 ></v-text-field>
 
                 <v-tooltip bottom>
@@ -37,6 +39,8 @@
                   outlined
                   :loading="loading"
                   :disabled="loading"
+                  color="var(--primary)"
+                  dense
                 ></v-text-field>
 
                   </template>
@@ -57,6 +61,8 @@
                         outlined
                         :loading="loading"
                         :disabled="loading"
+                        color="var(--primary)"
+                        dense
                       ></v-text-field>
 
                       <v-text-field
@@ -69,6 +75,8 @@
                         outlined
                         :loading="loading"
                         :disabled="loading"
+                        color="var(--primary)"
+                        dense
                       ></v-text-field>
 
                       <!-- <p class="error-message" v-if="error">{{ error }}</p> -->
@@ -78,7 +86,7 @@
                         small 
                         class="mt-0 mb-2 p-3 ml-0" 
                         rounded
-                        color="blue darken-3"
+                        color="var(--primary)"
                         dark
                         @click="updatePass"
                       >
@@ -95,7 +103,7 @@
         
             <v-spacer></v-spacer>
             <v-btn
-              color="blue darken-3"
+              color="var(--primary)"
               outlined
               rounded
               @click="closeDialog"

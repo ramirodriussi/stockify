@@ -15,11 +15,12 @@
       width="290"
     >
       <Navbar />
+
     </v-navigation-drawer>
 
     <!-- app bar  -->
 
-    <v-app-bar v-if="$auth.loggedIn" class="px-3" app clipped-left flat color="#1C63CE" dark>
+    <v-app-bar v-if="$auth.loggedIn" class="px-3" app clipped-left flat color="var(--primary)" dark>
 
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
@@ -40,16 +41,7 @@
 
         <v-list class="elevation-4">
 
-          <v-list-item color="primary" :to="{name:'index'}">
-              <v-list-item-icon>
-                <v-icon>mdi-home-outline</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>       
-                <v-list-item-title>Ir a la página principal</v-list-item-title>                         
-              </v-list-item-content>
-          </v-list-item> 
-
-          <v-list-item color="primary" @click="openDialog()">
+          <v-list-item color="var(--primary)" @click="openDialog()">
 
               <v-list-item-icon>
                 <v-icon>mdi-account-circle-outline</v-icon>
@@ -130,7 +122,7 @@
 
   computed: {
 
-    ...mapState(['user']),
+    ...mapState(['user', 'isAdmin']),
 
     // ...mapGetters(['getUser'])
 
@@ -138,9 +130,20 @@
 
   beforeMount() {
 
+    console.log('b');
+    // console.log(this.$auth.state.user.role.role);
+
     if(localStorage.getItem('admin')){
+
       this.$store.dispatch('setUser');
+
+      localStorage.getItem('admin') === 'true'
+        ? this.$store.commit('setAdmin', true) 
+        : this.$store.commit('setAdmin', false);
+
     }
+
+
 
   },
 
@@ -158,6 +161,7 @@
 
               await this.$auth.logout();
               localStorage.removeItem('admin');
+              this.$store.commit('setAdmin', null);
 
           } catch (error) {
               

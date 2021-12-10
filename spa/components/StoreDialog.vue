@@ -9,7 +9,7 @@
 			<v-card>
 				
 			<v-card-title
-				class="headline headline-white blue darken-3"
+				class="headline headline-white teal lighten-1"
 				primary-title
 				v-text="dialog.add ? 'Agregar local' : 'Editar local'"
 			>
@@ -38,6 +38,7 @@
 											dense
 											:rules="[rules.required]"
 											@change="updateInput('store', form.store)"
+											color="var(--primary)"
 										></v-text-field>
 
 									</v-col>
@@ -58,7 +59,7 @@
 			<v-card-actions>
 				<v-spacer></v-spacer>
 				<v-btn
-				color="blue darken-3"
+				color="var(--primary)"
 				rounded
 				outlined
 				dark	
@@ -67,7 +68,7 @@
 				Cerrar
 				</v-btn>
 				<v-btn
-				color="green darken-1"
+				color="var(--primary)"
 				rounded
 				:dark="!loading"	
 				@click="saveStore"

@@ -9,7 +9,7 @@
 			<v-card>
 				
 			<v-card-title
-				class="headline headline-white blue darken-3"
+				class="headline headline-white teal lighten-1"
 				primary-title
 				v-text="dialog.add ? 'Agregar usuario' : 'Editar usuario'"
 			>
@@ -38,6 +38,7 @@
 											dense
 											:rules="[rules.required]"
 											@change="updateInput('name', form.name)"
+											color="var(--primary)"
 										></v-text-field>
 
 									</v-col>
@@ -51,6 +52,7 @@
 											dense
 											:rules="[rules.required, rules.email]"
 											@change="updateInput('email', form.email)"
+											color="var(--primary)"
 										></v-text-field>
 
 									</v-col>
@@ -64,6 +66,7 @@
 											dense
 											:rules="[rules.requiredPassword(dialog.add), rules.password(dialog.add)]"
 											@change="updateInput('password', form.password)"
+											color="var(--primary)"
 										></v-text-field>
 
 									</v-col>
@@ -80,6 +83,7 @@
 											v-model="form.role_id"
 											:rules="[rules.required]"
 											@change="updateInput('role_id', form.role_id)"
+											color="var(--primary)"
 											></v-select>
 
 									</v-col>
@@ -95,6 +99,7 @@
 											dense
 											v-model="form.access"
 											@change="updateInput('access', form.access)"
+											color="var(--primary)"
 											></v-select>
 
 									</v-col>
@@ -115,7 +120,7 @@
 			<v-card-actions>
 				<v-spacer></v-spacer>
 				<v-btn
-				color="blue darken-3"
+				color="var(--primary)"
 				rounded
 				outlined
 				dark	
@@ -124,7 +129,7 @@
 				Cerrar
 				</v-btn>
 				<v-btn
-				color="green darken-1"
+				color="var(--primary)"
 				rounded
 				:dark="!loading"	
 				@click="saveUser"

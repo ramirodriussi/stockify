@@ -12,7 +12,7 @@
 				
 				<v-toolbar
 				dark
-				color="primary"
+				color="teal lighten-1"
 				>
 				<v-btn
 					icon
@@ -65,6 +65,7 @@
 												dense
 												:rules="[rules.required]"
 												@change="updateInput('product', form.product)"
+												color="var(--primary)"
 											></v-text-field>
 
 										</v-col>
@@ -78,6 +79,7 @@
 												dense
 												:rules="[rules.required]"
 												@change="updateInput('code', form.code)"
+												color="var(--primary)"
 											></v-text-field>
 
 										</v-col>
@@ -94,6 +96,7 @@
 											v-model="form.store_id"
 											:rules="[rules.required]"
 											@change="updateInput('store_id', form.store_id)"
+											color="var(--primary)"
 											></v-select>
 
 										</v-col>
@@ -107,6 +110,7 @@
 												dense
 												:rules="[rules.required]"
 												@change="updateInput('price', form.price)"
+												color="var(--primary)"
 											></v-text-field>
 
 										</v-col>
@@ -120,6 +124,7 @@
 												dense
 												:rules="[rules.required]"
 												@change="updateInput('stock', form.stock)"
+												color="var(--primary)"
 											></v-text-field>
 
 										</v-col>
@@ -133,6 +138,7 @@
 												dense
 												:rules="[rules.required]"
 												@change="updateInput('stock_notification_below', form.stock_notification_below)"
+												color="var(--primary)"
 											></v-text-field>
 
 										</v-col>
@@ -151,7 +157,7 @@
 								</barcode>
 							</div>
 						
-							<v-btn color="warning" small rounded @click="print">
+							<v-btn color="var(--primary)" dark small rounded @click="print">
 								Imprimir
 							</v-btn>
 

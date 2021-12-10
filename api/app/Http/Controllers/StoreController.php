@@ -16,7 +16,7 @@ class StoreController extends Controller
 
     public function __construct()
     {
-        $this->middleware('role:Administrador');
+        $this->middleware('role:Administrador')->except(['index']);
     }
 
     /**

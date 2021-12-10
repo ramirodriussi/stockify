@@ -12,7 +12,7 @@
 
 		<p class="mt-3" style="color:#FF1744" v-if="error">{{ error }}</p>
 
-		<v-btn color="#1C63CE" small dark rounded class="mt-4" @click="$refs.fileInput.click()">Cambiar foto</v-btn>
+		<v-btn color="var(--primary)" small dark rounded class="mt-4" @click="$refs.fileInput.click()">Cambiar foto</v-btn>
 
 		<input class="file" type="file" @change="onFileChange" ref="fileInput">
 		
@@ -130,7 +130,7 @@
 	}
 
 	.avatar-box {
-		border: 3px solid #1C63CE;
+		border: 3px solid var(--primary);
 		padding: 10px !important;
 		border-radius: 50%;
 		height: 225px;

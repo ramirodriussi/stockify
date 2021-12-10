@@ -9,7 +9,7 @@
 			<v-card>
 				
 			<v-card-title
-				class="headline headline-white blue darken-3"
+				class="headline headline-white teal lighten-1"
 				primary-title
 			>
                 Importar producto
@@ -28,6 +28,7 @@
                         v-model="file"
 						outlined
 						dense
+						color="var(--primary)"
                     ></v-file-input>
 
                 </v-form>
@@ -39,7 +40,7 @@
 			<v-card-actions>
 				<v-spacer></v-spacer>
 				<v-btn
-				color="blue darken-3"
+				color="var(--primary)"
 				rounded
 				outlined
 				dark	
@@ -48,7 +49,7 @@
 				Cerrar
 				</v-btn>
 				<v-btn
-				color="green darken-1"
+				color="var(--primary)"
 				rounded
 				:dark="!loading"
 				@click="importItem"

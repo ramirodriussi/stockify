@@ -23,6 +23,10 @@ use App\Http\Controllers\ImageController;
 //     return new App\Mail\DailySalesEmail();
 // });
 
+Route::get('/reset-password/{token}', function () { 
+    return view('app');//the view for the spa base-html
+})->name('password.reset');//laravel needs a route with this name for password reset
+
 Route::get('imagen/{imagePath}', [ImageController::class, 'getImage'])->name('getImage');
 
 Route::get('imagen/{subfolder}/{imagePath}', [ImageController::class, 'getImageSubdirectory']);

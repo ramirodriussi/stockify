@@ -28,7 +28,8 @@
                             v-bind="attrs"
                             v-on="on"
                             outlined
-                            color="grey"
+                            color="var(--custom-grey)"
+                            rounded
                             >
                             Personalizar fecha
                             </v-btn>
@@ -38,19 +39,22 @@
                         scrollable
                         range
                         locale="es-AR"
+                        color="var(--primary)"
                         >
                         <v-spacer></v-spacer>
                         <v-btn
-                            text
-                            color="primary"
                             @click="dialog = false"
+                            rounded
+                            outlined
+                            color="var(--primary)"
                         >
                             Cancelar
                         </v-btn>
                         <v-btn
-                            text
-                            color="primary"
+                            color="var(--primary)"
                             @click="changeDate"
+                            rounded
+                            dark
                         >
                             Aplicar
                         </v-btn>
@@ -65,19 +69,19 @@
 
         <v-col cols="12" md="4">
 
-            <DashboardCard title="Ventas del día" color="deep-purple lighten-2" :info="sales" icon="mdi-currency-usd" />
+            <DashboardCard title="Ventas del día" color="blue-grey lighten-3" :info="sales" icon="mdi-currency-usd" />
 
         </v-col>
 
         <v-col cols="12" md="4">
 
-            <DashboardCard title="Ganancias del día" color="deep-purple lighten-2" :info="earnings" icon="mdi-cash-register" />
+            <DashboardCard title="Ganancias del día" color="blue-grey lighten-3" :info="earnings" icon="mdi-cash-register" />
 
         </v-col>
 
         <v-col cols="12" md="4">
 
-            <DashboardCard :title="`Ganancias de ${month}`" color="green lighten-2" :info="earningsThisMonth" icon="mdi-calendar" />
+            <DashboardCard :title="`Ganancias de ${month}`" color="blue-grey lighten-3" :info="earningsThisMonth" icon="mdi-calendar" />
 
         </v-col>
 
@@ -130,7 +134,7 @@
 
                 } else {
 
-                    date = `${this.formatDate(this.dates[0])} a ${this.formatDate(this.dates[1])}`
+                    date = `${this.formatDate(this.dates[0])} al ${this.formatDate(this.dates[1])}`
 
                 }
 

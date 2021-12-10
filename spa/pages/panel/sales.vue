@@ -37,10 +37,11 @@
                                 small 
                                 class="mt-4 mt-md-0 pa-3" 
                                 rounded
-                                color="blue darken-3"
+                                color="var(--primary)"
                                 dark
                                 @click="addDialog"
                                 >
+                                <v-icon small>mdi-plus</v-icon>
                                 Nueva venta
                                 </v-btn>
 

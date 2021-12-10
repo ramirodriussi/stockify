@@ -1,13 +1,17 @@
 <template>
 
-  <v-row justify="center" align="center">
+  <v-container fill-height>
 
-    <v-col cols="12" md="4">
+    <v-row justify="center" align="center">
 
-      <LoginRegister/>
+      <v-col cols="12" md="4">
 
-    </v-col>
+        <LoginRegister/>
 
-  </v-row>
+      </v-col>
+
+    </v-row>
+
+  </v-container>
 
 </template>

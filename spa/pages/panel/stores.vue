@@ -37,10 +37,11 @@
                                 small 
                                 class="mt-4 mt-md-0 pa-3" 
                                 rounded
-                                color="blue darken-3"
+                                color="var(--primary)"
                                 dark
                                 @click="addDialog"
                                 >
+                                <v-icon small>mdi-plus</v-icon>
                                 Agregar local
                                 </v-btn>
 
@@ -68,7 +69,7 @@
 
                         <template v-slot:item.actions="{ item }">						
 
-                            <v-btn class="mr-1" depressed fab x-small text color="primary" @click="editDialog(item.id)">
+                            <v-btn class="mr-1" depressed fab x-small text color="var(--primary)" @click="editDialog(item.id)">
                                 <v-icon dark small>mdi-pencil</v-icon>
                             </v-btn>
 
