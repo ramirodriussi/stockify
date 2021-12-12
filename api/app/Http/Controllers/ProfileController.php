@@ -143,8 +143,6 @@ class ProfileController extends Controller
 
 		$folder = 'logos';
 
-		// ojo, si no funca agregar ['file'=>$request->file('file')] en vez de $request
-
 		$imgName = $this->storeImg(['file' => $file], $folder);
 
 		if (isset($imgName->original['error'])) {

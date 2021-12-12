@@ -9,7 +9,7 @@
 			<v-card>
 				
 			<v-card-title
-				class="headline headline-white teal lighten-1"
+				class="headline headline-white toolbar-color"
 				primary-title
 				v-text="dialog.add ? 'Agregar local' : 'Editar local'"
 			>
@@ -174,7 +174,7 @@
 
 					try {
 						
-						await this.$axios.post('/api/store', {form:this.form});
+						await this.$axios.post('/api/stores', {form:this.form});
 
 						this.$store.commit('pagination/changePaginationSection', {section:'stores'});
 

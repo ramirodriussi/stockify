@@ -69,7 +69,7 @@
 
                         <template v-slot:item.actions="{ item }">						
 
-                            <v-btn class="mr-1" depressed fab x-small text color="var(--primary)" @click="editDialog(item.id)">
+                            <v-btn class="mr-1" depressed fab x-small text color="grey darken-1" @click="editDialog(item.id)">
                                 <v-icon dark small>mdi-pencil</v-icon>
                             </v-btn>
 
@@ -103,6 +103,8 @@
     import SearchBox from '@/components/SearchBox';
 
 	export default {
+
+        middleware: 'isAdmin',
 
         components: {
             StoreDialog,

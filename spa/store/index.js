@@ -15,7 +15,6 @@ export const state = () => ({
     skeleton: false,
     loading: false,
     dialog: false,
-    isAdmin: false,
 
 });
 
@@ -31,10 +30,6 @@ export const mutations = {
         state.snackbar.show = !state.snackbar.show;
 
     },	
-
-    setAdmin: (state, payload) => {
-        state.isAdmin = payload;
-    },
 
     setUser: (state, payload) => {
         state.user = payload;
@@ -87,6 +82,6 @@ export const getters = {
 
     getDialog: (state) => {
         return state.dialog;
-    }
+    },
 
 };

@@ -8,7 +8,7 @@
 
           <div v-if="item.show">
 
-            <v-list-item exact-path color="teal lighten-1" v-if="!item.subitems" :to="item.route">
+            <v-list-item exact-path color="red accent-1" v-if="!item.subitems" :to="item.route">
               <v-list-item-icon>
                 <v-icon>{{ item.icon }}</v-icon>
               </v-list-item-icon>
@@ -54,8 +54,6 @@
 
 <script>
 
-  import { mapState } from 'vuex';
-
   export default {
 
     data () {
@@ -77,25 +75,13 @@
 
     },
 
-    beforeCreate(){
-
-      console.log('d');
-
-    },
-
     computed: {
-
-      ...mapState(['isAdmin']),
 
       filteredItems(){
 
-        console.log('c');
+        if(!this.$auth.hasScope("Administrador")){
 
-        console.log('thisadmin', this.isAdmin);
-
-        if(!this.isAdmin){
-
-          let list = ['Inicio', 'Locales', 'Usuarios'];
+          let list = ['Locales', 'Usuarios'];
 
           this.items.map((item) => {
 

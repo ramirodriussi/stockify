@@ -86,8 +86,10 @@ export default {
     },
     plugins: [
       '@/plugins/axios.js',
-    ]
+    ],
+
   },
+
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {

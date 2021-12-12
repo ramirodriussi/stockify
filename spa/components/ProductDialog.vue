@@ -12,7 +12,7 @@
 				
 				<v-toolbar
 				dark
-				color="teal lighten-1"
+				color="toolbar-color"
 				>
 				<v-btn
 					icon

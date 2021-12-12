@@ -6,8 +6,7 @@
 
     export default {
         
-        middleware: ['access-panel'],
-        layout: 'default'
+        middleware: ['auth'],
 
     }
 

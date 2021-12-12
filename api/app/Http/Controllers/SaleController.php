@@ -40,7 +40,7 @@ class SaleController extends Controller
 
 		$manager->setSerializer(new ArraySerializer());
 
-        $sales = Sale::search($request->word)->orderBy('id', 'desc')->paginate(1);
+        $sales = Sale::search($request->word)->orderBy('id', 'desc')->paginate(10);
 
 		$app = $sales->getCollection();
 

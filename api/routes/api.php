@@ -24,12 +24,6 @@ use App\Http\Controllers\RoleController;
 
 Route::middleware('auth:sanctum')->group(function() {
 
-	// General  -------
-
-	// Route::get('user', [UserController::class, 'show']);
-
-	// Profile --------
-
 	Route::get('user/profile', [ProfileController::class, 'show']);
 
 	Route::post('profile/update', [ProfileController::class, 'update']);

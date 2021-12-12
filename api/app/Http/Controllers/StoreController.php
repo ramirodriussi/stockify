@@ -39,7 +39,7 @@ class StoreController extends Controller
        
         } else {
 
-            $stores = Store::search($request->word)->orderBy('id','desc')->paginate(1);
+            $stores = Store::search($request->word)->orderBy('id','desc')->paginate(10);
 
             $app = $stores->getCollection();
     
@@ -63,12 +63,12 @@ class StoreController extends Controller
     {
 
         \Validator::make($request->all(), [
-            'store' => 'required',
+            'form.store' => 'required',
         ])->validate();
 
         $store = new Store();
 
-        $store->store = $request->store;
+        $store->store = $request->form['store'];
 
         $store->save();
 

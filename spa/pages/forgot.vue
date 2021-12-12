@@ -12,28 +12,5 @@
 
 </template>
 
-<script>
 
-    // import { mapState } from 'vuex';
-
-    // export default {
-
-    //     computed: {
-
-    //         ...mapState(['loginRegisterDialog'])
-
-    //     },
-
-    //     mounted(){
-
-    //         if(this.$store.state.loginRegisterDialog){
-    //             this.$store.commit('showLoginRegisterDialog');
-    //         }
-
-
-    //     }
-        
-    // }
-
-</script>
 

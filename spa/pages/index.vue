@@ -1,17 +1,44 @@
 <template>
 
-  <v-container fill-height>
+  <section>
 
-    <v-row justify="center" align="center">
+    <v-container fill-height>
 
-      <v-col cols="12" md="4">
+      <v-row justify="center" align="center">
 
-        <LoginRegister/>
+        <v-col cols="12" md="4">
 
-      </v-col>
+          <LoginRegister/>
 
-    </v-row>
+        </v-col>
 
-  </v-container>
+      </v-row>
+
+    </v-container>
+
+  </section>
 
 </template>
+
+<script>
+
+  export default {
+
+    middleware: 'logged',
+    layout: 'login'
+
+  }
+
+</script>
+
+<style scoped>
+
+  section {
+    width: 100%;
+    height: 100%;
+    background-image: url('~/assets/images/bg1.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+
+</style>

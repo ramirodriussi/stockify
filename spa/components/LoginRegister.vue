@@ -37,7 +37,7 @@
                             ></v-text-field>
                         </v-col>
                         <v-col cols="12" class="text-center">
-                            <v-btn color="teal lighten-1" :dark="!loading" block @click="sendForm(userInfo)" :loading="loading" :disabled="loading">Ingresar</v-btn>
+                            <v-btn color="red accent-1" :dark="!loading" block @click="sendForm(userInfo)" :loading="loading" :disabled="loading">Ingresar</v-btn>
                             <p class="mt-5 mb-0">¿Olvidaste tu contraseña? <NuxtLink to="forgot">Hacé click acá</NuxtLink></p>
                         </v-col>
                     </v-row>

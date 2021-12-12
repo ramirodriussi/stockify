@@ -9,7 +9,7 @@
 			<v-card>
 				
 			<v-card-title
-				class="headline headline-white teal lighten-1"
+				class="headline headline-white toolbar-color"
 				primary-title
 				v-text="dialog.add ? 'Nueva venta' : `Detalle de venta - ${saleId}`"
 			>
@@ -152,7 +152,7 @@
 
 						</v-col>
 
-						<v-col cols="12">
+						<v-col cols="12" v-if="cartItems.length">
 
 							<v-simple-table>
 								<template v-slot:default>

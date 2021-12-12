@@ -9,7 +9,7 @@
 			<v-card>
 				
 			<v-card-title
-				class="headline headline-white teal lighten-1"
+				class="headline headline-white toolbar-color"
 				primary-title
 			>
                 Importar producto

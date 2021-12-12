@@ -1,6 +1,6 @@
 <template>
     
-    <v-row>
+    <v-row v-if="$auth.hasScope('Administrador')">
 
         <v-col cols="12">
 
@@ -87,11 +87,17 @@
 
     </v-row>
 
+    <v-row v-else>
+
+        <h1>Bienvenido {{ user.name }}</h1>
+
+    </v-row>
+
 </template>
 
 <script>
 
-    // import { mapState } from 'vuex';
+    import { mapState } from 'vuex';
     import DashboardCard from '@/components/DashboardCard';
 
     export default {
@@ -142,7 +148,7 @@
 
             },
 
-            // ...mapState(['skeleton']),
+            ...mapState(['user']),
 
         },
 
@@ -164,17 +170,17 @@
 
         mounted(){
 
-            let today = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
+            if(this.$auth.hasScope('Administrador')){
 
-            this.dates.push(today);
-            this.from = today;
-            this.month = this.getCurrentMonth();
+                let today = (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10);
 
-            this.getData();
+                this.dates.push(today);
+                this.from = today;
+                this.month = this.getCurrentMonth();
 
-            // let resp = this.$axios.get(`/api/dashboard?from=${this.from}`);
+                this.getData();
 
-            // this.$store.commit('showSkeleton', true);
+            }
 
         },
 

@@ -31,32 +31,14 @@ class UserController extends Controller
 
         $manager->setSerializer(new ArraySerializer());
 
-        $users = User::search($request->word)->orderBy('id','desc')->paginate(1);
+        $users = User::search($request->word)->orderBy('id','desc')->paginate(10);
 
         $app = $users->getCollection();
 
         $resource = new Collection($users, new UserTransformer());	
 
         $resource->setPaginator(new IlluminatePaginatorAdapter($users));
-
-        // if($request->all){
-
-        //     $stores = Store::orderBy('id','desc')->get();
-    
-        //     $resource = new Collection($stores, new StoreTransformer());	
-       
-        // } else {
-
-        //     $stores = Store::search($request->word)->orderBy('id','desc')->paginate(1);
-
-        //     $app = $stores->getCollection();
-    
-        //     $resource = new Collection($stores, new StoreTransformer());	
-    
-        //     $resource->setPaginator(new IlluminatePaginatorAdapter($stores));
-
-        // }
-       
+  
         return $manager->createData($resource)->toArray();
 
     }
@@ -108,14 +90,6 @@ class UserController extends Controller
         $resource = new Item($user, new UserTransformer());
 
         return $manager->createData($resource)->toArray();
-
-        // $arr = [
-        //     'name' => $request->user()->name,
-        //     'email' => $request->user()->email,
-        //     'logo' => (isset($request->user()->logo)) ? env('APP_URL') . $request->user()->logo->image : null,
-        // ];
-
-        // return response()->json(['data' => $arr], 200);
 
     }
 

@@ -4,7 +4,7 @@
 
       <v-dialog v-model="dialog" max-width="400">
         <v-card>
-          <v-card-title class="headline-white headline teal lighten-1">Mi Perfil</v-card-title>
+          <v-card-title class="headline-white headline toolbar-color">Mi Perfil</v-card-title>
 
               <v-form v-model="validForm" ref="form" lazy-validation>
 
@@ -26,9 +26,6 @@
                   dense
                 ></v-text-field>
 
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-
                 <v-text-field
                   label="Correo Electrónico"
                   required
@@ -42,10 +39,6 @@
                   color="var(--primary)"
                   dense
                 ></v-text-field>
-
-                  </template>
-                  <span>Al modificar tu correo electrónico, te desloguearás del panel y te enviaremos un email de confirmación. <br> Tendrás que confirmarlo antes de ingresar nuevamente.</span>
-                </v-tooltip>
 
                 <span @click="showChangePassBox = !showChangePassBox">¿Necesitás cambiar tu contraseña?</span>  
              
@@ -213,11 +206,6 @@ export default {
             try {
 
               await this.$axios.post('/api/profile/update', {input,value});
-
-              if(input == 'email'){
-                  this.$store.commit('setProfileDialog');
-                  await this.$auth.logout();
-              }
 
               if(input == 'name'){
                 this.$store.commit('updateUser', {name: value});

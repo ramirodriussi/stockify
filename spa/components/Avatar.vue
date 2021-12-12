@@ -10,7 +10,7 @@
 			
 		</div>
 
-		<p class="mt-3" style="color:#FF1744" v-if="error">{{ error }}</p>
+		<p class="mt-3" style="color:#FF8A80" v-if="error">{{ error }}</p>
 
 		<v-btn color="var(--primary)" small dark rounded class="mt-4" @click="$refs.fileInput.click()">Cambiar foto</v-btn>
 

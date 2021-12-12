@@ -122,24 +122,15 @@
 
   computed: {
 
-    ...mapState(['user', 'isAdmin']),
-
-    // ...mapGetters(['getUser'])
+    ...mapState(['user']),
 
   },
 
   beforeMount() {
 
-    console.log('b');
-    // console.log(this.$auth.state.user.role.role);
-
     if(localStorage.getItem('admin')){
 
       this.$store.dispatch('setUser');
-
-      localStorage.getItem('admin') === 'true'
-        ? this.$store.commit('setAdmin', true) 
-        : this.$store.commit('setAdmin', false);
 
     }
 
@@ -160,8 +151,8 @@
           try {
 
               await this.$auth.logout();
+              this.$store.commit('setUser', {});
               localStorage.removeItem('admin');
-              this.$store.commit('setAdmin', null);
 
           } catch (error) {
               
