@@ -39,7 +39,7 @@ class StoreController extends Controller
        
         } else {
 
-            $stores = Store::search($request->word)->orderBy('id','desc')->paginate(10);
+            $stores = Store::search($request->word)->orderBy('id','desc')->paginate(1);
 
             $app = $stores->getCollection();
     
