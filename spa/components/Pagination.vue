@@ -38,7 +38,7 @@
     computed: {
 
       ...mapState('pagination', {
-          paginationSection: state => state.paginationSection,
+          section: state => state.section,
       }),
 
       ...mapState('search', {
@@ -69,7 +69,7 @@
 
         let url;
 
-        if (this.paginationSection == 'products') {   
+        if (this.section == 'products') {   
 
           (this.searchBoxPaginationActive) 
               ? url = `/api/products?word=${this.$store.getters['search/getSearch']}&page=${this.$store.getters['pagination/getPagination'].page}`
@@ -79,7 +79,7 @@
 
         // stores
 
-        if (this.paginationSection == 'stores') {
+        if (this.section == 'stores') {
 
             (this.searchBoxPaginationActive) 
                 ? url = `/api/stores?word=${this.$store.getters['search/getSearch']}&page=${this.$store.getters['pagination/getPagination'].page}`
@@ -89,7 +89,7 @@
 
         // sales
 
-        if (this.paginationSection == 'sales') {
+        if (this.section == 'sales') {
 
             (this.searchBoxPaginationActive) 
                 ? url = `/api/sales?word=${this.$store.getters['search/getSearch']}&page=${this.$store.getters['pagination/getPagination'].page}`
@@ -99,7 +99,7 @@
 
         // users
 
-        if (this.paginationSection == 'users') {
+        if (this.section == 'users') {
 
             (this.searchBoxPaginationActive) 
                 ? url = `/api/users?word=${this.$store.getters['search/getSearch']}&page=${this.$store.getters['pagination/getPagination'].page}`

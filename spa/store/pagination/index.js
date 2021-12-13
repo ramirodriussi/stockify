@@ -43,23 +43,6 @@ export const actions = {
             .then(response=>{
 
                 commit(`${state.section}/${state.mutation}`, response.data.data, {root: true});
-
-                // if (state.paginationSection == 'stores') {
-                //     commit('stores/setStores', response.data.data, {root: true});
-                // }	
-
-                // if (state.paginationSection == 'products') {
-                //     commit('products/setProducts', response.data.data, {root: true});
-                // }	
-
-                // if (state.paginationSection == 'sales') {
-                //     commit('sales/setSales', response.data.data, {root: true});
-                // }	
-
-                // if (state.paginationSection == 'users') {
-                //     commit('users/setUsers', response.data.data, {root: true});
-                // }	
-
                 commit('showSkeleton', false, {root: true});
                 commit('pagination', response.data.meta.pagination);
 

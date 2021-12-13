@@ -174,8 +174,6 @@
 
                     this.$store.commit('pagination/setSection', {section:'stores', mutation: 'setStores'});
 
-                    console.log('pagin', this.pagination.page);
-
                     let page;
 
                     if ((this.$store.getters['stores/getStores'].length - 1) === 0) {
