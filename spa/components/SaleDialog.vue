@@ -433,7 +433,7 @@
 						
 						await this.$axios.post('/api/sales', {cart:this.cart,payment:this.paymentType});
 
-						this.$store.commit('pagination/changePaginationSection', {section:'sales'});
+						this.$store.commit('pagination/setSection', {section:'sales', mutation:'setSales'});
 
 						let url = '/api/sales?page='+this.getPagination.page;
 

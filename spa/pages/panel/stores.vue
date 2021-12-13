@@ -29,13 +29,13 @@
 
                         <v-card class="v-card-panel pa-4 elevation-4 mb-4">
 
-                            <div class="d-flex justify-space-between flex-column flex-sm-row">
+                            <div class="d-flex justify-space-between align-center flex-column flex-sm-row">
 
                                 <h2 class="panel-v-card-title"><i class="far fa-file-alt"></i> Locales</h2>
 
                                 <v-btn 
                                 small 
-                                class="mt-4 mt-md-0 pa-3" 
+                                class="mt-md-0 pa-3" 
                                 rounded
                                 color="var(--primary)"
                                 dark

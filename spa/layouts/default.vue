@@ -128,22 +128,16 @@
 
   beforeMount() {
 
-    if(localStorage.getItem('admin')){
-
+    if(this.$auth.loggedIn){
       this.$store.dispatch('setUser');
-
     }
-
-
 
   },
 
   methods: {
 
         openDialog(){
-
           this.$store.commit('setProfileDialog');
-
         },
 
         async logout(){
@@ -152,7 +146,6 @@
 
               await this.$auth.logout();
               this.$store.commit('setUser', {});
-              localStorage.removeItem('admin');
 
           } catch (error) {
               

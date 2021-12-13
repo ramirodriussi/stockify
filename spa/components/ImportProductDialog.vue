@@ -171,7 +171,7 @@
                         this.$store.commit('showSnackbar', {color:'success',text:'Subido correctamente'});
                         this.$store.commit('setDialog');
 
-						this.$store.commit('pagination/changePaginationSection', {section:'products'});
+						this.$store.commit('pagination/setSection', {section:'products', mutation: 'setProducts'});
 						let url = `/api/products?page=1`;
 						this.$store.dispatch('pagination/setItemsPagination', url);
 

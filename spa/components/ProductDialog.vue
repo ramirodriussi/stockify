@@ -283,7 +283,7 @@
 						
 						await this.$axios.post('/api/products', {form:this.form});
 
-						this.$store.commit('pagination/changePaginationSection', {section:'products'});
+						this.$store.commit('pagination/setSection', {section:'products', mutation:'setProducts'});
 
 						let url = '/api/products?page='+this.getPagination.page;
 

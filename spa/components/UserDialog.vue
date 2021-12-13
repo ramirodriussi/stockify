@@ -279,7 +279,7 @@
 						
 						await this.$axios.post('/api/users', {form:this.form});
 
-						this.$store.commit('pagination/changePaginationSection', {section:'users'});
+						this.$store.commit('pagination/setSection', {section:'users', mutation:'setUsers'});
 
 						let url = '/api/users?page='+this.getPagination.page;
 

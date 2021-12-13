@@ -106,14 +106,7 @@
                         });
 
                         this.$store.commit('showSnackbar', {color:'success', text: resp.data.message});
-
-                        this.isAdmin = (resp.data.role == 'Administrador') ? true : false;
-
-                        localStorage.setItem('admin', this.isAdmin);
-                        this.$store.commit('setAdmin', this.isAdmin);
-
-                        console.log('a');
-                        
+                       
                         this.$store.dispatch('setUser');
                         this.$router.push('panel');
 

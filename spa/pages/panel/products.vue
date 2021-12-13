@@ -29,13 +29,13 @@
 
                         <v-card class="v-card-panel pa-4 elevation-4 mb-4">
 
-                            <div class="d-flex justify-space-between flex-column flex-sm-row">
+                            <div class="d-flex justify-space-between align-center flex-column flex-sm-row">
 
                                 <h2 class="panel-v-card-title"><i class="far fa-file-alt"></i> Productos</h2>
 
                                 <v-btn 
                                 small 
-                                class="mt-4 mt-md-0 pa-3" 
+                                class="mt-md-0 pa-3" 
                                 rounded
                                 color="var(--primary)"
                                 dark
@@ -63,7 +63,7 @@
 
                         </v-col>
 
-                        <div class="ma-4">
+                        <div v-if="$auth.hasScope('Administrador')" class="ma-4">
 
                             <v-btn outlined class="mr-1" :href="`${url}/api/products/export`" tag="a" download rounded small color="var(--primary)">
                                 <v-icon small>mdi-download</v-icon> Exportar
@@ -89,7 +89,7 @@
 
                             <v-chip 
                             small 
-                            color="teal lighten-3"
+                            color="red accent-1"
                             text-color="white"
                             >
                                 {{ item.store.store }}
