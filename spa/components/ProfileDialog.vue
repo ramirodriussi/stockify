@@ -32,7 +32,6 @@
                   @change="updateInput('email', $event)"
                   :value="info.email"
                   :rules="[rules.required,rules.email]"
-                  v-on="on"
                   outlined
                   :loading="loading"
                   :disabled="loading"
