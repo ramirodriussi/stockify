@@ -6,15 +6,13 @@ export default function ({ $axios, redirect, store, $auth }) {
 
         if (code === 401) {
           
-            console.log('axios unauthenticated');
+            // console.log('axios unauthenticated');
 
             store.commit('showSnackbar', {color:'error', text: 'La sesión ha expirado.'});
 
             if($auth.loggedIn){
 
               $auth.logout();
-
-              localStorage.removeItem('admin');
 
             }
 
