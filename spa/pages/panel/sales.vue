@@ -184,7 +184,7 @@
 
                 getItems(){
 
-                    this.$store.commit('pagination/changePaginationSection', {section:'sales'});
+                    this.$store.commit('pagination/setSection', {section:'sales', mutation: 'setSales'});
 
                     let page;
 
@@ -245,16 +245,6 @@
                                     	this.$store.commit('showSnackbar', {color:'error',text:'No se pudo eliminar la venta'});
 
                                     })
-
-                                    // if (resp) {
-
-                                    //     console.log('reintegrar');
-
-                                    // } else {
-
-                                    //     console.log('no reintegrar');
-
-                                    // }
 
                                 });
 

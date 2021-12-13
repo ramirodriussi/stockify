@@ -1,7 +1,8 @@
 
 export const state = () => ({
 
-    paginationSection: null,
+    section: null,
+    mutation: null,
     pagination : {
         total : 0,
         page: 1,
@@ -13,8 +14,9 @@ export const state = () => ({
 
 export const mutations = {
 
-    changePaginationSection: (state,payload) => {
-        state.paginationSection = payload.section;
+    setSection: (state,payload) => {
+        state.section = payload.section;
+        state.mutation = payload.mutation;
     },
 
     pagination: (state, payload) => {
@@ -40,22 +42,7 @@ export const actions = {
             this.$axios.get(url)
             .then(response=>{
 
-                if (state.paginationSection == 'stores') {
-                    commit('stores/setStores', response.data.data, {root: true});
-                }	
-
-                if (state.paginationSection == 'products') {
-                    commit('products/setProducts', response.data.data, {root: true});
-                }	
-
-                if (state.paginationSection == 'sales') {
-                    commit('sales/setSales', response.data.data, {root: true});
-                }	
-
-                if (state.paginationSection == 'users') {
-                    commit('users/setUsers', response.data.data, {root: true});
-                }	
-
+                commit(`${state.section}/${state.mutation}`, response.data.data, {root: true});
                 commit('showSkeleton', false, {root: true});
                 commit('pagination', response.data.meta.pagination);
 

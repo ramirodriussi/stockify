@@ -189,7 +189,7 @@
 
                 getItems(){
 
-                    this.$store.commit('pagination/changePaginationSection', {section:'users'});
+                    this.$store.commit('pagination/setSection', {section:'users', mutation:'setUsers'});
 
                     let page;
 

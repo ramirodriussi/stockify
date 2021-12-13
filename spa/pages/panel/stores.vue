@@ -172,9 +172,7 @@
 
                 getItems(){
 
-                    this.$store.commit('pagination/changePaginationSection', {section:'stores'});
-
-                    console.log('pagin', this.pagination.page);
+                    this.$store.commit('pagination/setSection', {section:'stores', mutation: 'setStores'});
 
                     let page;
 
