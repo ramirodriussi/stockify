@@ -89,7 +89,7 @@
 
                             <v-chip 
                             small 
-                            color="red accent-1"
+                            color="blue-grey lighten-3"
                             text-color="white"
                             >
                                 {{ item.store.store }}

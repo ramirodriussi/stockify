@@ -81,8 +81,9 @@ export default {
     },
     redirect: {
       login: '/',
+      logout: '/',
       callback: false,
-      home: false
+      home: '/panel'
     },
     plugins: [
       '@/plugins/axios.js',

@@ -76,8 +76,6 @@
                 },
                 success: '',
                 error: '',
-                isAdmin: false,
-
 
             }
 
@@ -105,14 +103,12 @@
                             }
                         });
 
-                        this.$store.commit('showSnackbar', {color:'success', text: resp.data.message});
-                       
                         this.$store.dispatch('setUser');
-                        this.$router.push('panel');
+                        this.$store.commit('showSnackbar', {color:'success', text: resp.data.message});
 
                     } catch (error) {
 
-                        this.$store.commit('showSnackbar', {color:'error', text: error.response.data.errors.email[0]});
+                        this.$store.commit('showSnackbar', {color:'error', text: error.response.data.message});
                         
                     } finally {
 

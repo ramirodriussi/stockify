@@ -1,97 +1,111 @@
 <template>
     
-    <v-row v-if="$auth.hasScope('Administrador')">
+    <div>
 
-        <v-col cols="12">
+        <v-row v-if="$auth.hasScope('Administrador')">
 
-            <v-alert
-            color="grey lighten-4"
-            prominent
-            icon="mdi-calendar"
-            class="rounded-lg mb-0"
-            >
-            <v-row align="center">
-                <v-col class="grow">
-                Estadísticas de {{ calendarDate }}
-                </v-col>
-                <v-col class="shrink">
+            <v-col cols="12">
 
-                    <!-- calendar dialog  -->
+                <v-alert
+                color="grey lighten-4"
+                prominent
+                icon="mdi-calendar"
+                class="rounded-lg mb-0"
+                >
+                <v-row align="center">
+                    <v-col class="grow">
+                    Estadísticas de {{ calendarDate }}
+                    </v-col>
+                    <v-col class="shrink">
 
-                    <v-dialog
-                        ref="dialog"
-                        v-model="dialog"
-                        width="290px"
-                    >
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn
-                            v-bind="attrs"
-                            v-on="on"
-                            outlined
-                            color="var(--custom-grey)"
-                            rounded
+                        <!-- calendar dialog  -->
+
+                        <v-dialog
+                            ref="dialog"
+                            v-model="dialog"
+                            width="290px"
+                        >
+                            <template v-slot:activator="{ on, attrs }">
+                                <v-btn
+                                v-bind="attrs"
+                                v-on="on"
+                                outlined
+                                color="var(--custom-grey)"
+                                rounded
+                                >
+                                Personalizar fecha
+                                </v-btn>
+                            </template>
+                            <v-date-picker
+                            v-model="dates"
+                            scrollable
+                            range
+                            locale="es-AR"
+                            color="var(--primary)"
                             >
-                            Personalizar fecha
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                @click="dialog = false"
+                                rounded
+                                outlined
+                                color="var(--primary)"
+                            >
+                                Cancelar
                             </v-btn>
-                        </template>
-                        <v-date-picker
-                        v-model="dates"
-                        scrollable
-                        range
-                        locale="es-AR"
-                        color="var(--primary)"
-                        >
-                        <v-spacer></v-spacer>
-                        <v-btn
-                            @click="dialog = false"
-                            rounded
-                            outlined
-                            color="var(--primary)"
-                        >
-                            Cancelar
-                        </v-btn>
-                        <v-btn
-                            color="var(--primary)"
-                            @click="changeDate"
-                            rounded
-                            dark
-                        >
-                            Aplicar
-                        </v-btn>
-                        </v-date-picker>
-                    </v-dialog>
+                            <v-btn
+                                color="var(--primary)"
+                                @click="changeDate"
+                                rounded
+                                dark
+                            >
+                                Aplicar
+                            </v-btn>
+                            </v-date-picker>
+                        </v-dialog>
 
-                </v-col>
-            </v-row>
-            </v-alert>
+                    </v-col>
+                </v-row>
+                </v-alert>
 
-        </v-col>
+            </v-col>
 
-        <v-col cols="12" md="4">
+            <v-col cols="12" md="4">
 
-            <DashboardCard title="Ventas del día" color="blue-grey lighten-3" :info="sales" icon="mdi-currency-usd" />
+                <DashboardCard title="Ventas del día" color="blue-grey lighten-3" :info="sales" icon="mdi-currency-usd" />
 
-        </v-col>
+            </v-col>
 
-        <v-col cols="12" md="4">
+            <v-col cols="12" md="4">
 
-            <DashboardCard title="Ganancias del día" color="blue-grey lighten-3" :info="earnings" icon="mdi-cash-register" />
+                <DashboardCard title="Ganancias del día" color="blue-grey lighten-3" :info="earnings" icon="mdi-cash-register" />
 
-        </v-col>
+            </v-col>
 
-        <v-col cols="12" md="4">
+            <v-col cols="12" md="4">
 
-            <DashboardCard :title="`Ganancias de ${month}`" color="blue-grey lighten-3" :info="earningsThisMonth" icon="mdi-calendar" />
+                <DashboardCard :title="`Ganancias de ${month}`" color="blue-grey lighten-3" :info="earningsThisMonth" icon="mdi-calendar" />
 
-        </v-col>
+            </v-col>
 
-    </v-row>
+        </v-row>
 
-    <v-row v-else>
+        <v-row v-if="$auth.hasScope('Empleado')">
 
-        <h1>Bienvenido {{ user.name }}</h1>
+            <v-col cols="12">
 
-    </v-row>
+                <v-alert
+                border="left"
+                color="blue-grey lighten-3"
+                dark
+                >
+                Bienvenido, {{ user.name }}!
+                </v-alert>
+
+            </v-col>
+
+        </v-row>
+
+    </div>
 
 </template>
 

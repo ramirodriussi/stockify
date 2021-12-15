@@ -102,22 +102,26 @@
   import { mapState } from 'vuex';
   import ProfileDialog from '@/components/ProfileDialog';
   import Navbar from '@/components/Navbar';
+  import Snackbar from '@/components/Snackbar';
 
   export default {
 
   components: {
     ProfileDialog,
-    Navbar
+    Navbar,
+    Snackbar
   },
 
   data () {
+
     return {
+
       drawer: true,
       clipped: false,
       on: false,
-      emailVerified: false,
 
     }
+    
   },
 
   computed: {

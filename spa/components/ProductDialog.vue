@@ -157,7 +157,7 @@
 								</barcode>
 							</div>
 						
-							<v-btn color="var(--primary)" dark small rounded @click="print">
+							<v-btn v-if="!dialog.add" color="var(--primary)" dark small rounded @click="print">
 								Imprimir
 							</v-btn>
 

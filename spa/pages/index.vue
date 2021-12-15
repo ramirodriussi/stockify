@@ -24,7 +24,8 @@
 
   export default {
 
-    middleware: 'logged',
+    middleware: 'auth',
+    auth: 'guest',
     layout: 'login'
 
   }

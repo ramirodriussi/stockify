@@ -16,7 +16,7 @@ export default function ({ $axios, redirect, store, $auth }) {
 
             }
 
-            redirect('/');
+            // redirect('/');
 
         }
 
