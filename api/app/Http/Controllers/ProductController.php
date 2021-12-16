@@ -174,6 +174,14 @@ class ProductController extends Controller
     public function import(Request $request)
     {
 
+        $validator = \Validator::make($request->all(), [
+            'file' => 'mimetypes: application/vnd.ms-excel,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['error' => $validator->errors()->first()], 422);
+        }
+
         $import = new ImportProducts;
         $import->import($request->file('file'));
 

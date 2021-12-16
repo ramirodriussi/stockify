@@ -107,8 +107,9 @@
                         this.$store.commit('showSnackbar', {color:'success', text: resp.data.message});
 
                     } catch (error) {
-
-                        this.$store.commit('showSnackbar', {color:'error', text: error.response.data.message});
+                        
+                        // console.log(error.response.data);
+                        this.$store.commit('showSnackbar', {color:'error', text: error.response.data.errors.email[0]});
                         
                     } finally {
 
