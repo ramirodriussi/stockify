@@ -20,6 +20,7 @@ class UserSeeder extends Seeder
                 'email' => 'admin@example.com',
                 'password' => \Hash::make('password'),
                 'role_id' => 1,
+                'access' => 1,
                 'created_at' => \Carbon\Carbon::now(),
             ],
             [
@@ -27,6 +28,7 @@ class UserSeeder extends Seeder
                 'email' => 'empleado@example.com',
                 'password' => \Hash::make('password'),
                 'role_id' => 2,
+                'access' => 1,
                 'created_at' => \Carbon\Carbon::now(),
             ],
         ]);
