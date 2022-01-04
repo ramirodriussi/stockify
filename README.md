@@ -36,7 +36,12 @@ _Hacemos las migraciones correspondientes y ejecutamos los seeders_
 ```
 php artisan migrate --seed
 ```
-_Finaliza con un ejemplo de cómo obtener datos del sistema o como usarlos para una pequeña demo_
+
+_Iniciamos servidor_
+
+```
+php artisan serve --host localhost
+```
 
 ### Instalación SPA 🔧
 
@@ -49,6 +54,12 @@ _Instalamos dependencias:_
 
 ```
 npm i
+```
+
+_Generamos archivos Nuxt:_
+
+```
+npm run dev
 ```
 ## Demo y credenciales de acceso 🔓
 
